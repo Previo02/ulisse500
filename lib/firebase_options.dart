@@ -83,5 +83,4 @@ class DefaultFirebaseOptions {
     authDomain: 'ulisse500.firebaseapp.com',
     storageBucket: 'ulisse500.appspot.com',
   );
-
 }
