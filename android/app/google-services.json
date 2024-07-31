@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "282023228454",
+    "project_id": "ulisse500",
+    "storage_bucket": "ulisse500.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282023228454:android:1efc4f9dc93767f835e2e7",
+        "android_client_info": {
+          "package_name": "com.ulisse500.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwwiP1hmuu_g71oRGyvff8q7Z7z9tzOF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
