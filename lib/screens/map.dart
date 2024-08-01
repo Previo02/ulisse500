@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -16,26 +18,70 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    _initializeMarkers();
+    _fetchMuseums();
   }
 
-  void _initializeMarkers() {
-    _markers.add(
-      Marker(
-        width: 80.0,
-        height: 80.0,
-        point: const LatLng(44.494887, 11.342616),
+  Future<void> _fetchMuseums() async {
+    const query = '''
+    SELECT ?museum ?museumLabel ?coord ?wikipedia WHERE {
+      ?museum wdt:P31 wd:Q33506;      # I musei
+              wdt:P131 wd:Q1272;      # Situati a Bologna
+              wdt:P625 ?coord.        # Con coordinate geografiche
+      OPTIONAL {
+        ?wikipedia schema:about ?museum;
+                   schema:inLanguage "it";
+                   schema:isPartOf <https://it.wikipedia.org/>.
+      }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "it". }
+    }
+    ''';
+    final url = Uri.parse(
+        'https://query.wikidata.org/sparql?query=${Uri.encodeComponent(query)}&format=json');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print("Successo");
+      final data = json.decode(response.body);
+      final List<dynamic> museums = data['results']['bindings'];
+      print(museums);
+      _initializeMarkers(museums);
+    } else {
+      throw Exception('Failed to load museum data');
+    }
+  }
+
+  void _initializeMarkers(List<dynamic> museums) {
+    for (var museum in museums) {
+      final coord = museum['coord']['value'];
+      final latLng = _parseLatLng(coord);
+      final wikipediaUrl = museum['wikipedia'] != null
+          ? museum['wikipedia']['value']
+          : 'https://www.google.com/search?q=${museum['museumLabel']['value']}';
+
+      final marker = Marker(
+        width: 70.0,
+        height: 70.0,
+        point: latLng,
         child: IconButton(
           icon: const Icon(Icons.location_on),
           color: Colors.red,
           iconSize: 40.0,
           onPressed: () {
-            _openGooglePage(
-                'https://www.google.com/search?q=Museo+di+Palazzo+Poggi');
+            _openGooglePage(wikipediaUrl);
           },
         ),
-      ),
-    );
+      );
+      _markers.add(marker);
+    }
+    setState(() {});
+  }
+
+  LatLng _parseLatLng(String coord) {
+    final coords =
+        coord.replaceAll('Point(', '').replaceAll(')', '').split(' ');
+    final lat = double.parse(coords[1]);
+    final lng = double.parse(coords[0]);
+    return LatLng(lat, lng);
   }
 
   void _openGooglePage(String url) async {
@@ -57,11 +103,11 @@ class _MapPageState extends State<MapPage> {
         options: const MapOptions(
           initialCenter: LatLng(44.494887, 11.342616),
           minZoom: 0,
-          maxZoom: 150.0,
+          maxZoom: 75,
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
           MarkerLayer(
             markers: _markers,
