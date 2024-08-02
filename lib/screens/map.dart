@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -18,70 +16,105 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    _fetchMuseums();
+    _initializeMarkers();
   }
 
-  Future<void> _fetchMuseums() async {
-    const query = '''
-    SELECT ?museum ?museumLabel ?coord ?wikipedia WHERE {
-      ?museum wdt:P31 wd:Q33506;      # I musei
-              wdt:P131 wd:Q1272;      # Situati a Bologna
-              wdt:P625 ?coord.        # Con coordinate geografiche
-      OPTIONAL {
-        ?wikipedia schema:about ?museum;
-                   schema:inLanguage "it";
-                   schema:isPartOf <https://it.wikipedia.org/>.
-      }
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "it". }
-    }
-    ''';
-    final url = Uri.parse(
-        'https://query.wikidata.org/sparql?query=${Uri.encodeComponent(query)}&format=json');
-    final response = await http.get(url);
+  void _initializeMarkers() {
+    final museums = [
+      {
+        'name': 'Museo di Palazzo Poggi',
+        'coord': const LatLng(44.4952, 11.3520),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/museo-di-palazzo-poggi'
+      },
+      {
+        'name': 'Museo Europeo degli Studenti - MEUS',
+        'coord': const LatLng(44.4958, 11.3459),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/museo-europeo-degli-studenti-meus'
+      },
+      {
+        'name': 'Museo della Specola',
+        'coord': const LatLng(44.4965, 11.3519),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/museo-della-specola'
+      },
+      {
+        'name': 'Collezione di Zoologia',
+        'coord': const LatLng(44.4946, 11.3439),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-zoologia'
+      },
+      {
+        'name': 'Collezione di Anatomia Comparata',
+        'coord': const LatLng(44.4942, 11.3443),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-comparata'
+      },
+      {
+        'name': 'Collezione di Antropologia',
+        'coord': const LatLng(44.4941, 11.3441),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-antropologia'
+      },
+      {
+        'name': 'Collezione di Chimica "Giacomo Ciamician"',
+        'coord': const LatLng(44.4943, 11.3452),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-chimica-giacomo-ciamician'
+      },
+      {
+        'name': 'Collezione di Geologia "Museo Giovanni Capellini"',
+        'coord': const LatLng(44.4936, 11.3425),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-geologia-giovanni-capellini'
+      },
+      {
+        'name': 'Collezione di Mineralogia "Museo Luigi Bombicci"',
+        'coord': const LatLng(44.4938, 11.3431),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-mineralogia-luigi-bombicci'
+      },
+      {
+        'name': 'Collezione delle Cere Anatomiche "Luigi Cattaneo"',
+        'coord': const LatLng(44.4927, 11.3468),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-delle-cere-anatomiche-l-cattaneo'
+      },
+      {
+        'name': 'Collezione di Fisica',
+        'coord': const LatLng(44.4945, 11.3455),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-fisica'
+      },
+      {
+        'name': 'Orto Botanico ed Erbario',
+        'coord': const LatLng(44.4964, 11.3514),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/orto-botanico-ed-erbario'
+      },
+      {
+        'name': 'Collezione di Anatomia degli Animali Domestici',
+        'coord': const LatLng(44.4926, 11.3436),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-degli-animali-domestici'
+      },
+      {
+        'name': 'Collezione di Anatomia Patologica e Teratologia Veterinaria "Alessandrini - Ercolani"',
+        'coord': const LatLng(44.4925, 11.3435),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-patologica-e-teratologia-veterinaria'
+      },
+      {
+        'name': 'Museo Officina dell\'Educazione - MODE',
+        'coord': const LatLng(44.4957, 11.3499),
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/mode'
+      },
+    ];
 
-    if (response.statusCode == 200) {
-      print("Successo");
-      final data = json.decode(response.body);
-      final List<dynamic> museums = data['results']['bindings'];
-      print(museums);
-      _initializeMarkers(museums);
-    } else {
-      throw Exception('Failed to load museum data');
-    }
-  }
-
-  void _initializeMarkers(List<dynamic> museums) {
     for (var museum in museums) {
-      final coord = museum['coord']['value'];
-      final latLng = _parseLatLng(coord);
-      final wikipediaUrl = museum['wikipedia'] != null
-          ? museum['wikipedia']['value']
-          : 'https://www.google.com/search?q=${museum['museumLabel']['value']}';
-
       final marker = Marker(
         width: 70.0,
         height: 70.0,
-        point: latLng,
+        point: museum['coord'] as LatLng,
         child: IconButton(
           icon: const Icon(Icons.location_on),
           color: Colors.red,
           iconSize: 40.0,
           onPressed: () {
-            _openGooglePage(wikipediaUrl);
+            _openGooglePage(museum['url'] as String);
           },
         ),
       );
       _markers.add(marker);
     }
     setState(() {});
-  }
-
-  LatLng _parseLatLng(String coord) {
-    final coords =
-        coord.replaceAll('Point(', '').replaceAll(')', '').split(' ');
-    final lat = double.parse(coords[1]);
-    final lng = double.parse(coords[0]);
-    return LatLng(lat, lng);
   }
 
   void _openGooglePage(String url) async {
@@ -100,10 +133,10 @@ class _MapPageState extends State<MapPage> {
         title: const Text("Ulisse500"),
       ),
       body: FlutterMap(
-        options: const MapOptions(
+        options:const MapOptions(
           initialCenter: LatLng(44.494887, 11.342616),
-          minZoom: 0,
-          maxZoom: 75,
+          minZoom: 3.0,
+          maxZoom: 18.0,
         ),
         children: [
           TileLayer(
