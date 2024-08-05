@@ -36,10 +36,8 @@ class LoginPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: (context) => const NavigatorPage()),
-                  );
+                  // Non è necessario navigare esplicitamente al NavigatorPage
+                  // perché il ChangeNotifierProvider nel main si occupa di questo.
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to sign in: $e')),

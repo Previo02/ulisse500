@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -145,11 +146,12 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Ulisse500"),
-        actions: [
-          InkWell(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
               child: const Icon(Icons.logout),
-              onTap: () => AuthProvider().signOut())
-        ],
+              onTap: () => Provider.of<AuthProvider>(context, listen: false).signOut()),
+        ),
       ),
       body: FlutterMap(
         options: const MapOptions(
