@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ulisse500/screens/navigator.dart';
 import 'package:ulisse500/screens/register.dart';
 
 class LoginPage extends StatelessWidget {
@@ -36,9 +35,8 @@ class LoginPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
-                  // Non è necessario navigare esplicitamente al NavigatorPage
-                  // perché il ChangeNotifierProvider nel main si occupa di questo.
                 } catch (e) {
+                  if(!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to sign in: $e')),
                   );

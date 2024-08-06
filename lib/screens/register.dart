@@ -2,14 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ulisse500/screens/navigator.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+  RegisterPageState createState() => RegisterPageState();
+}
 
+class RegisterPageState extends State<RegisterPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
@@ -35,10 +47,12 @@ class RegisterPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
+                  if (!context.mounted) return;
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const NavigatorPage()),
                   );
                 } catch (e) {
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to register: $e')),
                   );
