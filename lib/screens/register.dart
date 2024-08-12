@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ulisse500/screens/navigator.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ulisse500/provider/provider.dart';
+import 'package:ulisse500/routing/navigator.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -48,8 +50,11 @@ class RegisterPageState extends State<RegisterPage> {
                     password: passwordController.text,
                   );
                   if (!context.mounted) return;
+                  Provider.of<PrivateProvider>(context, listen: false)
+                      .updateUser(FirebaseAuth.instance.currentUser);
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const NavigatorPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const NavigatorPage()),
                   );
                 } catch (e) {
                   if (!context.mounted) return;

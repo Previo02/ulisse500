@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/provider.dart';
+import 'package:ulisse500/routing/navigator.dart';
+import 'package:ulisse500/routing/routes.dart';
 import 'package:ulisse500/screens/login.dart';
-import 'package:ulisse500/screens/navigator.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,8 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
-      child: Consumer<AuthProvider>(
+      create: (_) => PrivateProvider(),
+      child: Consumer<PrivateProvider>(
         builder: (context, authProvider, _) {
           return MaterialApp(
             title: 'Ulisse500',
@@ -29,7 +30,10 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: authProvider.isAuthenticated ? const NavigatorPage() : const LoginPage(),
+            home: authProvider.isAuthenticated
+                ? const NavigatorPage()
+                : const LoginPage(),
+            routes: AppRoutes.getRoutes(),
           );
         },
       ),

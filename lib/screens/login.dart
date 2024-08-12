@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:ulisse500/provider/provider.dart';
+import 'package:ulisse500/routing/navigator.dart';
 import 'package:ulisse500/screens/register.dart';
 
 class LoginPage extends StatelessWidget {
@@ -31,12 +34,22 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  UserCredential userCredential =
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: emailController.text,
                     password: passwordController.text,
                   );
+                  if (!context.mounted) return;
+                  Provider.of<PrivateProvider>(context, listen: false)
+                      .updateUser(userCredential.user);
+
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: (context) => const NavigatorPage()),
+                  );
                 } catch (e) {
-                  if(!context.mounted) return;
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Failed to sign in: $e')),
                   );

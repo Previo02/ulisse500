@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/provider.dart';
+import 'package:ulisse500/screens/login.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class MapPage extends StatefulWidget {
@@ -149,8 +150,17 @@ class _MapPageState extends State<MapPage> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-              child: const Icon(Icons.logout),
-              onTap: () => Provider.of<AuthProvider>(context, listen: false).signOut()),
+            child: const Icon(Icons.logout),
+            onTap: () async {
+              await Provider.of<PrivateProvider>(context, listen: false)
+                  .signOut();
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (route) => false,
+              );
+            },
+          ),
         ),
       ),
       body: FlutterMap(
