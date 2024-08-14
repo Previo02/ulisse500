@@ -5,14 +5,19 @@ import 'package:ulisse500/provider/provider.dart';
 import 'package:ulisse500/routing/navigator.dart';
 import 'package:ulisse500/screens/register.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final appBarHeight = screenHeight * 0.15;
     final textStyle = TextStyle(
