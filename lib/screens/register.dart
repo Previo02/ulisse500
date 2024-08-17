@@ -112,7 +112,7 @@ class RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Torna alla pagina di login
+                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   'Already have an account? Log in',
