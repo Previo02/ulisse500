@@ -43,67 +43,67 @@ class _MapPageState extends State<MapPage> {
       },
       {
         'name': 'Collezione di Zoologia',
-        'coord': const LatLng(44.4946, 11.3439),
+        'coord': const LatLng(44.495777, 11.354173),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-zoologia'
       },
       {
         'name': 'Collezione di Anatomia Comparata',
-        'coord': const LatLng(44.4942, 11.3443),
+        'coord': const LatLng(44.495777, 11.354173),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-comparata'
       },
       {
         'name': 'Collezione di Antropologia',
-        'coord': const LatLng(44.4941, 11.3441),
+        'coord': const LatLng(44.495777, 11.354173),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-antropologia'
       },
       {
         'name': 'Collezione di Chimica "Giacomo Ciamician"',
-        'coord': const LatLng(44.4943, 11.3452),
+        'coord': const LatLng(44.496536, 11.354189),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-chimica-giacomo-ciamician'
       },
       {
         'name': 'Collezione di Geologia "Museo Giovanni Capellini"',
-        'coord': const LatLng(44.4936, 11.3425),
+        'coord': const LatLng(44.497843, 11.355306),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-geologia-giovanni-capellini'
       },
       {
         'name': 'Collezione di Mineralogia "Museo Luigi Bombicci"',
-        'coord': const LatLng(44.4938, 11.3431),
+        'coord': const LatLng(44.498195, 11.355444),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-mineralogia-luigi-bombicci'
       },
       {
         'name': 'Collezione delle Cere Anatomiche "Luigi Cattaneo"',
-        'coord': const LatLng(44.4927, 11.3468),
+        'coord': const LatLng(44.499027, 11.355315),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-delle-cere-anatomiche-l-cattaneo'
       },
       {
         'name': 'Collezione di Fisica',
-        'coord': const LatLng(44.4945, 11.3455),
+        'coord': const LatLng(44.49937, 11.353879),
         'url': 'https://sma.unibo.it/it/il-sistema-museale/collezione-di-fisica'
       },
       {
         'name': 'Orto Botanico ed Erbario',
-        'coord': const LatLng(44.4964, 11.3514),
+        'coord': const LatLng(44.500139, 11.352991),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/orto-botanico-ed-erbario'
       },
       {
         'name': 'Collezione di Anatomia degli Animali Domestici',
-        'coord': const LatLng(44.4926, 11.3436),
+        'coord': const LatLng(44.435227, 11.486098),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-degli-animali-domestici'
       },
       {
         'name':
             'Collezione di Anatomia Patologica e Teratologia Veterinaria "Alessandrini - Ercolani"',
-        'coord': const LatLng(44.4925, 11.3435),
+        'coord': const LatLng(44.435227, 11.486098),
         'url':
             'https://sma.unibo.it/it/il-sistema-museale/collezione-di-anatomia-patologica-e-teratologia-veterinaria'
       },
@@ -119,13 +119,16 @@ class _MapPageState extends State<MapPage> {
         width: 70.0,
         height: 70.0,
         point: museum['coord'] as LatLng,
-        child: IconButton(
-          icon: const Icon(Icons.location_on),
-          color: Colors.red,
-          iconSize: 40.0,
-          onPressed: () {
-            _openGooglePage(museum['url'] as String);
-          },
+        child: Tooltip(
+          message: museum['name'] as String,
+          child: IconButton(
+            icon: const Icon(Icons.location_on),
+            color: Colors.red,
+            iconSize: 40.0,
+            onPressed: () {
+              _openGooglePage(museum['url'] as String);
+            },
+          ),
         ),
       );
       _markers.add(marker);
