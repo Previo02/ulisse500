@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulisse500/provider/provider.dart';
+import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/screens/login.dart';
 
 class ProfilePage extends StatelessWidget {
