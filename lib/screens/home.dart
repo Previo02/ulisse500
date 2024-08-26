@@ -9,12 +9,12 @@ class HomePage extends StatelessWidget {
   final List<Dinosaur> dinosaurs = [
     Dinosaur(
       name: 'Tyrannosaurus Rex',
-      imageUrl: 'https://example.com/trex.png',
+      image: 'asset/images/trex.png',
       description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
     ),
     Dinosaur(
       name: 'Triceratops',
-      imageUrl: 'https://example.com/triceratops.png',
+      image: 'asset/images/triceratops.png',
       description: 'Il Triceratops è conosciuto per le sue tre corna...',
     ),
   ];
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 3 / 4, // Rapporto aspetto per la card
+          childAspectRatio: 3 / 4,
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
         ),
@@ -65,7 +65,16 @@ class HomePage extends StatelessWidget {
             child: Card(
               child: Column(
                 children: [
-                  Image.network(dinosaur.imageUrl, fit: BoxFit.cover),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        dinosaur.image,
+                        fit: BoxFit.contain,
+                        width: double.infinity,
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

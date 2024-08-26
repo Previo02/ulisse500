@@ -1,11 +1,11 @@
 class Dinosaur {
   final String name;
-  final String imageUrl;
+  final String image;
   final String description;
 
   Dinosaur({
     required this.name,
-    required this.imageUrl,
+    required this.image,
     required this.description,
   });
 }

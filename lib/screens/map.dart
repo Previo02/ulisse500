@@ -110,7 +110,7 @@ class _MapPageState extends State<MapPage> {
       {
         'name': 'Museo Officina dell\'Educazione - MODE',
         'coord': const LatLng(44.4957, 11.3499),
-        'url': 'https://sma.unibo.it/it/il-sistema-museale/mode'
+        'url': 'https://sma.unibo.it/it/il-sistema-museale/mode',
       },
     ];
 
@@ -125,9 +125,7 @@ class _MapPageState extends State<MapPage> {
             icon: const Icon(Icons.location_on),
             color: Colors.red,
             iconSize: 40.0,
-            onPressed: () {
-              _openGooglePage(museum['url'] as String);
-            },
+            onPressed: () => _openGooglePage(museum['url'] as String),
           ),
         ),
       );
@@ -136,12 +134,32 @@ class _MapPageState extends State<MapPage> {
     setState(() {});
   }
 
-  void _openGooglePage(String url) async {
+  Future<void> _openGooglePage(String url) async {
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);
     } else {
-      throw 'Could not launch $url';
+      _showErrorDialog('Could not launch $url');
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

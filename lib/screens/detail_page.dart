@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
 import 'package:ulisse500/screens/ar_view.dart';
 
@@ -24,7 +25,7 @@ class DinosaurDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(dinosaur.imageUrl),
+            Image.asset(dinosaur.image),
             const SizedBox(height: 16.0),
             Text(
               dinosaur.description,
@@ -33,12 +34,29 @@ class DinosaurDetailPage extends StatelessWidget {
             const Spacer(),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ARViewPage(dinosaur: dinosaur),
-                    ),
-                  );
+                onPressed: () async {
+                  var status = await Permission.camera.status;
+                  if (!status.isGranted) {
+                    status = await Permission.camera.request();
+                  }
+
+                  if (status.isGranted) {
+                    if (!context.mounted) return;
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ARViewPage(dinosaur: dinosaur),
+                      ),
+                    );
+                  } else {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Camera permission is required to use AR features.',
+                        ), 
+                      ),
+                    );
+                  }
                 },
                 child: const Text('Mostra in AR'),
               ),
