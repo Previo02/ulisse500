@@ -35,27 +35,45 @@ class DinosaurDetailPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
+                  // Verifica lo stato dei permessi della fotocamera
                   var status = await Permission.camera.status;
-                  if (!status.isGranted) {
-                    status = await Permission.camera.request();
-                  }
 
                   if (status.isGranted) {
-                    if (!context.mounted) return;
+                    // Se il permesso è già concesso, naviga verso la pagina AR
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ARViewPage(dinosaur: dinosaur),
                       ),
                     );
-                  } else {
-                    if (!context.mounted) return;
+                  } else if (status.isDenied) {
+                    // Se il permesso è negato, richiedilo all'utente
+                    status = await Permission.camera.request();
+                    if (status.isGranted) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ARViewPage(dinosaur: dinosaur),
+                        ),
+                      );
+                    } else {
+                      // Se il permesso viene rifiutato, mostra un messaggio all'utente
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Camera permission is required to use AR features.',
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (status.isRestricted || status.isPermanentlyDenied) {
+                    // Se l'accesso è limitato o permanentemente negato, mostra un messaggio
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
-                          'Camera permission is required to use AR features.',
-                        ), 
+                          'Camera permission is required to use AR features. Please enable it in settings.',
+                        ),
                       ),
                     );
+                    // Qui puoi eventualmente guidare l'utente alle impostazioni dell'app
                   }
                 },
                 child: const Text('Mostra in AR'),
