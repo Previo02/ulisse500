@@ -35,27 +35,26 @@ class DinosaurDetailPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  // Verifica lo stato dei permessi della fotocamera
                   var status = await Permission.camera.status;
 
                   if (status.isGranted) {
-                    // Se il permesso è già concesso, naviga verso la pagina AR
+                    if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ARViewPage(dinosaur: dinosaur),
                       ),
                     );
                   } else if (status.isDenied) {
-                    // Se il permesso è negato, richiedilo all'utente
                     status = await Permission.camera.request();
                     if (status.isGranted) {
+                      if (!context.mounted) return;
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ARViewPage(dinosaur: dinosaur),
                         ),
                       );
                     } else {
-                      // Se il permesso viene rifiutato, mostra un messaggio all'utente
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
@@ -64,8 +63,9 @@ class DinosaurDetailPage extends StatelessWidget {
                         ),
                       );
                     }
-                  } else if (status.isRestricted || status.isPermanentlyDenied) {
-                    // Se l'accesso è limitato o permanentemente negato, mostra un messaggio
+                  } else if (status.isRestricted ||
+                      status.isPermanentlyDenied) {
+                    if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
@@ -73,7 +73,6 @@ class DinosaurDetailPage extends StatelessWidget {
                         ),
                       ),
                     );
-                    // Qui puoi eventualmente guidare l'utente alle impostazioni dell'app
                   }
                 },
                 child: const Text('Mostra in AR'),
