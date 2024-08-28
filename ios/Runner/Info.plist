@@ -47,10 +47,12 @@
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-    	<key>NSAllowsArbitraryLoads</key>
+    	<key>NSAllowsArbitraryLoads</key>	
     	<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Questa app ha bisogno della fotocamera per utilizzare tutte le funzioni</string>
+	<key>io.flutter.embedded_views_preview</key>
+  	<true/>
 </dict>
 </plist>
