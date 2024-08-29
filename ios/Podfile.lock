@@ -1,5 +1,5 @@
 PODS:
-  - ar_flutter_plugin_flutterflow (0.6.2):
+  - ar_flutter_plugin_flutterflow (0.7.74):
     - ARCore/CloudAnchors (~> 1.36.0)
     - Flutter
     - GLTFSceneKit
@@ -176,7 +176,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  ar_flutter_plugin_flutterflow: b2d9dcf909e143f49aa3c1303032583435301c50
+  ar_flutter_plugin_flutterflow: 76c32ed688e5389921002a4b4bedb72c61ba8078
   ARCore: 0ae024c989d177c9f907b54e9efc28940045f8df
   BlueCryptor: b0aee3d9b8f367b49b30de11cda90e1735571c24
   BlueECC: 0d18e93347d3ec6d41416de21c1ffa4d4cd3c2cc
