@@ -76,14 +76,19 @@ class ARViewPageState extends State<ARViewPage> {
       arObjectManager.removeNode(dinosaurNode!);
     }
 
+    final fixedPosition = Vector3(0.0, 0.0, -1.0);
+    final fixedRotation = Vector4(0.0, 1.0, 0.0, 0.0);
+
     final newNode = ARNode(
       type: NodeType.fileSystemAppFolderGLB,
-      uri: "asset/felis.glb",
-      scale: Vector3(0.5, 0.5, 0.5),
+      uri: "asset/felis.glb", 
+      scale: Vector3(1, 1, 1),
+      position: fixedPosition,
+      rotation: fixedRotation,
     );
 
     bool? didAddNode = await arObjectManager.addNode(newNode);
-    if (didAddNode!) {
+    if (didAddNode == true) {
       dinosaurNode = newNode;
     } else {
       print("Error adding model to the scene.");
