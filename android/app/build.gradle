@@ -1,5 +1,6 @@
 plugins {
     id "com.android.application"
+
     // START: FlutterFire Configuration
     id 'com.google.gms.google-services'
     // END: FlutterFire Configuration
@@ -42,6 +43,7 @@ android {
         applicationId = "com.example.ulisse500"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+
         minSdk = 23
         targetSdk = 33
         compileSdkVersion 34
@@ -56,6 +58,10 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+}
+
+dependencies {
+    implementation 'com.google.ar.sceneform:core:1.8.0'
 }
 
 flutter {

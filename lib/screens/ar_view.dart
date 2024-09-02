@@ -1,50 +1,44 @@
-import 'package:ar_flutter_plugin_flutterflow/ar_flutter_plugin.dart';
-import 'package:ar_flutter_plugin_flutterflow/datatypes/node_types.dart';
-import 'package:ar_flutter_plugin_flutterflow/managers/ar_anchor_manager.dart';
-import 'package:ar_flutter_plugin_flutterflow/managers/ar_location_manager.dart';
-import 'package:ar_flutter_plugin_flutterflow/managers/ar_object_manager.dart';
-import 'package:ar_flutter_plugin_flutterflow/managers/ar_session_manager.dart';
-import 'package:ar_flutter_plugin_flutterflow/models/ar_node.dart';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
+import 'package:arkit_plugin/arkit_plugin.dart';
 
 class ARViewPage extends StatefulWidget {
-  final Dinosaur dinosaur;
   const ARViewPage({super.key, required this.dinosaur});
+  final Dinosaur dinosaur;
 
   @override
   ARViewPageState createState() => ARViewPageState();
 }
 
 class ARViewPageState extends State<ARViewPage> {
-  late ARSessionManager arSessionManager;
-  late ARObjectManager arObjectManager;
-  ARNode? dinosaurNode;
+  late ArCoreController arCoreController;
+  late ARKitController arKitController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.dinosaur.name),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
       ),
       body: Stack(
         children: [
-          ARView(
-            onARViewCreated: onARViewCreated,
-          ),
+          if (Platform.isAndroid)
+            ArCoreView(
+              onArCoreViewCreated: _onArCoreViewCreated,
+            ),
+          if (Platform.isIOS)
+            ARKitSceneView(
+              onARKitViewCreated: _onARKitViewCreated,
+            ),
           Align(
             alignment: FractionalOffset.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: onAddLocalObjectButtonPressed,
+                onPressed: _onAddLocalObjectButtonPressed,
                 child: const Text("Add Model"),
               ),
             ),
@@ -54,50 +48,41 @@ class ARViewPageState extends State<ARViewPage> {
     );
   }
 
-  void onARViewCreated(
-      ARSessionManager sessionManager,
-      ARObjectManager objectManager,
-      ARAnchorManager arAnchorManager,
-      ARLocationManager arLocationManager) {
-    arSessionManager = sessionManager;
-    arObjectManager = objectManager;
-
-    arSessionManager.onInitialize(
-      showFeaturePoints: false,
-      showPlanes: true,
-      showWorldOrigin: true,
-      handleTaps: true,
-    );
-    arObjectManager.onInitialize();
+  void _onArCoreViewCreated(ArCoreController controller) {
+    arCoreController = controller;
   }
 
-  Future<void> onAddLocalObjectButtonPressed() async {
-    if (dinosaurNode != null) {
-      arObjectManager.removeNode(dinosaurNode!);
-    }
+  void _onARKitViewCreated(ARKitController controller) {
+    arKitController = controller;
+  }
 
-    final fixedPosition = Vector3(0.0, 0.0, -1.0);
-    final fixedRotation = Vector4(0.0, 1.0, 0.0, 0.0);
-
-    final newNode = ARNode(
-      type: NodeType.fileSystemAppFolderGLB,
-      uri: "asset/felis.glb", 
-      scale: Vector3(1, 1, 1),
-      position: fixedPosition,
-      rotation: fixedRotation,
-    );
-
-    bool? didAddNode = await arObjectManager.addNode(newNode);
-    if (didAddNode == true) {
-      dinosaurNode = newNode;
-    } else {
-      print("Error adding model to the scene.");
+  Future<void> _onAddLocalObjectButtonPressed() async {
+    if (Platform.isAndroid) {
+      final node = ArCoreReferenceNode(
+        name: widget.dinosaur.name,
+        objectUrl: "asset/models/felis.glb",
+        position: Vector3(0, 0, -1.5),
+        scale: Vector3(1.0, 1.0, 1.0),
+      );
+      arCoreController.addArCoreNodeWithAnchor(node);
+    } else if (Platform.isIOS) {
+      final node = ARKitGltfNode(
+        assetType: AssetType.flutterAsset,
+        url: 'assets/models/felis.glb',
+        position: Vector3(0, 0, -2),
+        scale: Vector3(0.2, 0.2, 0.2),
+      );
+      arKitController.add(node);
     }
   }
 
   @override
   void dispose() {
-    arSessionManager.dispose();
+    if (Platform.isAndroid) {
+      arCoreController.dispose();
+    } else if (Platform.isIOS) {
+      arKitController.dispose();
+    }
     super.dispose();
   }
 }

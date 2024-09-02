@@ -9,12 +9,12 @@ class HomePage extends StatelessWidget {
   final List<Dinosaur> dinosaurs = [
     Dinosaur(
       name: 'Tyrannosaurus Rex',
-      image: 'asset/images/trex.png',
+      image: 'assets/images/trex.png',
       description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
     ),
     Dinosaur(
       name: 'Triceratops',
-      image: 'asset/images/triceratops.png',
+      image: 'assets/images/triceratops.png',
       description: 'Il Triceratops è conosciuto per le sue tre corna...',
     ),
   ];
