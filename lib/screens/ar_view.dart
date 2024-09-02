@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
@@ -57,22 +58,37 @@ class ARViewPageState extends State<ARViewPage> {
   }
 
   Future<void> _onAddLocalObjectButtonPressed() async {
-    if (Platform.isAndroid) {
-      final node = ArCoreReferenceNode(
-        name: widget.dinosaur.name,
-        objectUrl: "asset/models/felis.glb",
-        position: Vector3(0, 0, -1.5),
-        scale: Vector3(1.0, 1.0, 1.0),
-      );
-      arCoreController.addArCoreNodeWithAnchor(node);
-    } else if (Platform.isIOS) {
-      final node = ARKitGltfNode(
-        assetType: AssetType.flutterAsset,
-        url: 'assets/models/felis.glb',
-        position: Vector3(0, 0, -2),
-        scale: Vector3(0.2, 0.2, 0.2),
-      );
-      arKitController.add(node);
+    try {
+      if (Platform.isAndroid) {
+        log("Removing existing node...");
+        await arCoreController.removeNode(nodeName: widget.dinosaur.name);
+        await Future.delayed(const Duration(milliseconds: 500));
+        log("Adding new node to ARCore...");
+        final node = ArCoreReferenceNode(
+          name: widget.dinosaur.name,
+          objectUrl: "asset/models/felis.glb",
+          position: Vector3(0, 0, 1.5),
+          scale: Vector3(0.5, 0.5, 0.5),
+        );
+        await arCoreController.addArCoreNodeWithAnchor(node);
+      } else if (Platform.isIOS) {
+        log("Removing existing node...");
+        await arKitController.remove(widget.dinosaur.name);
+        await Future.delayed(const Duration(milliseconds: 500));
+        log("Adding new node to ARKit...");
+        final node = ARKitGltfNode(
+          name: widget.dinosaur.name,
+          assetType: AssetType.flutterAsset,
+          url: 'assets/models/felis.glb',
+          position: Vector3(0, 0, -2),
+          scale: Vector3(0.2, 0.2, 0.2),
+        );
+        await arKitController.add(node);
+      }
+
+      log("Model added successfully.");
+    } catch (e) {
+      log("Error adding model: $e");
     }
   }
 
