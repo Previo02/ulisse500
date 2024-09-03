@@ -18,7 +18,7 @@ class ARViewIOSState extends State<ARViewIOS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product'),
+        title: Text(widget.dinosaur.name),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
@@ -56,7 +56,7 @@ class ARViewIOSState extends State<ARViewIOS> {
     return ARKitGltfNode(
       assetType: AssetType.flutterAsset,
       url: "assets/models/felis.glb",
-      scale: vector.Vector3.all(0.05),
+      scale: vector.Vector3.all(0.3),
       position: position,
     );
   }
