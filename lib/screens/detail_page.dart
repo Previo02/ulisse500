@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
-import 'package:ulisse500/screens/ar_view.dart';
+import 'package:ulisse500/screens/ar/ar_view_android.dart';
+import 'package:ulisse500/screens/ar/ar_view_ios.dart';
 
 class DinosaurDetailPage extends StatelessWidget {
   final Dinosaur dinosaur;
@@ -41,7 +43,9 @@ class DinosaurDetailPage extends StatelessWidget {
                     if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ARViewPage(dinosaur: dinosaur),
+                        builder: (context) => Platform.isAndroid
+                            ? ARViewAndroid(dinosaur: dinosaur)
+                            : ARViewIOS(dinosaur: dinosaur),
                       ),
                     );
                   } else if (status.isDenied) {
@@ -50,7 +54,9 @@ class DinosaurDetailPage extends StatelessWidget {
                       if (!context.mounted) return;
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ARViewPage(dinosaur: dinosaur),
+                          builder: (context) => Platform.isAndroid
+                              ? ARViewAndroid(dinosaur: dinosaur)
+                              : ARViewIOS(dinosaur: dinosaur),
                         ),
                       );
                     } else {
