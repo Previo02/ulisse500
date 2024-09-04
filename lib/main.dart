@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/routing/navigator.dart';
-import 'package:ulisse500/routing/routes.dart';
 import 'package:ulisse500/screens/login.dart';
 import 'firebase_options.dart';
 
@@ -33,7 +32,6 @@ class MyApp extends StatelessWidget {
             home: authProvider.isAuthenticated
                 ? const NavigatorPage()
                 : const LoginPage(),
-            routes: AppRoutes.getRoutes(),
           );
         },
       ),
