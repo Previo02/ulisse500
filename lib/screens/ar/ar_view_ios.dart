@@ -34,7 +34,11 @@ class ARViewIOSState extends State<ARViewIOS> {
               (hit) => hit.type == ARKitHitTestResultType.featurePoint,
             );
             if (point != null) {
-              _onARTapHandler(point);
+              try {
+                _onARTapHandler(point);
+              } catch (e) {
+                print(e);
+              }
             }
           };
         },

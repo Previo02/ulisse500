@@ -25,6 +25,7 @@ class ARViewAndroidState extends State<ARViewAndroid> {
           ArCoreView(
             onArCoreViewCreated: _onArCoreViewCreated,
             enableTapRecognizer: true,
+            type: ArCoreViewType.STANDARDVIEW,
           ),
         ],
       ),
