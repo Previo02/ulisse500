@@ -38,10 +38,10 @@ class _NavigatorPageState extends State<NavigatorPage> {
             _currentIndex = index;
           });
         },
-        children: <Widget>[
+        children: const <Widget>[
           HomePage(),
-          const ProfilePage(),
-          const MapPage(),
+          ProfilePage(),
+          MapPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

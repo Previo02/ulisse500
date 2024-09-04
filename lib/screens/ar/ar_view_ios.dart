@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
@@ -38,7 +40,7 @@ class ARViewIOSState extends State<ARViewIOS> {
               try {
                 _onARTapHandler(point);
               } catch (e) {
-                print(e);
+                log('$e');
               }
             }
           };
