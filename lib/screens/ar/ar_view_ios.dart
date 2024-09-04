@@ -13,6 +13,7 @@ class ARViewIOS extends ARViewBase {
 
 class ARViewIOSState extends State<ARViewIOS> {
   late ARKitController controller;
+  ARKitNode? currentNode;
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +47,26 @@ class ARViewIOSState extends State<ARViewIOS> {
     );
   }
 
-  void _onARTapHandler(ARKitTestResult point) {
+  Future<void> _onARTapHandler(ARKitTestResult point) async {
     final position = vector.Vector3(
       point.worldTransform.getColumn(3).x,
       point.worldTransform.getColumn(3).y,
       point.worldTransform.getColumn(3).z,
     );
+
+    if (currentNode != null) {
+      await controller.remove(currentNode!.name);
+    }
     final node = _getNodeFromFlutterAsset(position);
-    controller.add(node);
+    await controller.add(node);
+    currentNode = node;
   }
 
   ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {
     return ARKitGltfNode(
       assetType: AssetType.flutterAsset,
       url: "assets/models/felis.glb",
-      scale: vector.Vector3.all(0.3),
+      scale: vector.Vector3.all(0.5),
       position: position,
     );
   }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -13,6 +12,7 @@ class ARViewAndroid extends ARViewBase {
 
 class ARViewAndroidState extends State<ARViewAndroid> {
   late ArCoreController arCoreController;
+  ArCoreNode? currentNode;
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +39,23 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
     final hit = hits.first;
-    log("Plane tapped at position: ${hit.pose.translation}");
-
     onAddLocalObject(hit.pose.translation);
   }
 
   void onAddLocalObject(Vector3 position) async {
-    log("Adding node at: $position");
+    if (currentNode != null) {
+      arCoreController.removeNode(nodeName: currentNode!.name);
+    }
+
     final node = ArCoreReferenceNode(
       name: widget.dinosaur.name,
       objectUrl: "assets/models/felis.glb",
       position: position,
       scale: Vector3(0.5, 0.5, 0.5),
     );
+
     await arCoreController.addArCoreNodeWithAnchor(node);
+    currentNode = node;
   }
 
   @override
