@@ -41,17 +41,27 @@ class HomePageState extends State<HomePage> {
   Future<void> _loadDinosaurStatus() async {
     List<String> lockedDinosaurIds =
         await _dinosaurService.getLockedDinosaurs();
+    bool hasChanges = false;
 
     setState(() {
       for (var dinosaur in dinosaurs) {
-        if (lockedDinosaurIds.contains(dinosaur.id)) {
-          dinosaur.isLocked =
-              true;
-        } else {
-          dinosaur.isLocked = false;
+        bool isCurrentlyLocked = lockedDinosaurIds.contains(dinosaur.id);
+        if (dinosaur.isLocked != isCurrentlyLocked) {
+          dinosaur.isLocked = isCurrentlyLocked;
+          hasChanges = true;
         }
       }
     });
+
+    if (!mounted) return;
+
+    if (hasChanges) {
+      setState(() {
+        for (var dinosaur in dinosaurs) {
+          dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
+        }
+      });
+    }
   }
 
   void _unlockDinosaur(Dinosaur dinosaur) {

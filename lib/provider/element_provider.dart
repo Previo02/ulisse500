@@ -9,19 +9,22 @@ class DinosaurService {
     final User? user = _auth.currentUser;
 
     if (user != null) {
-      final DocumentSnapshot userDoc = await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('dinosaurs')
-          .doc('dinosaurStatus')
-          .get();
+      final DocumentReference userDocRef =
+          _firestore.collection('users').doc(user.uid);
+      final DocumentSnapshot userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>;
-        return List<String>.from(data['lockedDinosaurIds'] ?? []);
+        if (data.containsKey('dinosaurs')) {
+          return List<String>.from(data['dinosaurs'] ?? []);
+        } else {
+          return await _initializeDinosaurData(userDocRef);
+        }
+      } else {
+        return await _initializeDinosaurData(userDocRef);
       }
     }
-    return [];
+    return _getAllDinosaurIds();
   }
 
   Future<void> updateLockedDinosaurStatus(
@@ -29,14 +32,22 @@ class DinosaurService {
     final User? user = _auth.currentUser;
 
     if (user != null) {
-      await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('dinosaurs')
-          .doc('dinosaurStatus')
-          .set({
-        'lockedDinosaurIds': lockedDinosaurIds,
+      await _firestore.collection('users').doc(user.uid).update({
+        'dinosaurs': lockedDinosaurIds,
       });
     }
+  }
+
+  Future<List<String>> _initializeDinosaurData(
+      DocumentReference userDocRef) async {
+    List<String> allDinosaurIds = _getAllDinosaurIds();
+    await userDocRef.set({
+      'dinosaurs': allDinosaurIds,
+    });
+    return allDinosaurIds;
+  }
+
+  List<String> _getAllDinosaurIds() {
+    return ['0', '1'];
   }
 }
