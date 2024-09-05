@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
 import 'package:ulisse500/provider/private_provider.dart';
+import 'package:ulisse500/provider/element_provider.dart';
 import 'package:ulisse500/screens/detail_page.dart';
 import 'package:ulisse500/screens/login.dart';
 import 'package:ulisse500/screens/quiz_page.dart';
@@ -15,24 +16,54 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   double radius = 8.0;
-
-  final List<Dinosaur> dinosaurs = [
+  final DinosaurService _dinosaurService = DinosaurService();
+  List<Dinosaur> dinosaurs = [
     Dinosaur(
+      id: '0',
       name: 'Tyrannosaurus Rex',
       image: 'assets/images/trex.png',
       description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
     ),
     Dinosaur(
+      id: '1',
       name: 'Triceratops',
       image: 'assets/images/triceratops.png',
       description: 'Il Triceratops è conosciuto per le sue tre corna...',
     ),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _loadDinosaurStatus();
+  }
+
+  Future<void> _loadDinosaurStatus() async {
+    List<String> lockedDinosaurIds =
+        await _dinosaurService.getLockedDinosaurs();
+
+    setState(() {
+      for (var dinosaur in dinosaurs) {
+        if (lockedDinosaurIds.contains(dinosaur.id)) {
+          dinosaur.isLocked =
+              true;
+        } else {
+          dinosaur.isLocked = false;
+        }
+      }
+    });
+  }
+
   void _unlockDinosaur(Dinosaur dinosaur) {
     setState(() {
       dinosaur.isLocked = false;
     });
+
+    List<String> lockedDinosaurIds = dinosaurs
+        .where((dino) => dino.isLocked)
+        .map((dino) => dino.id)
+        .toList();
+    _dinosaurService.updateLockedDinosaurStatus(lockedDinosaurIds);
   }
 
   @override
