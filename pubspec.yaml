@@ -48,6 +48,7 @@ dependencies:
   arkit_plugin: ^1.1.0
   collection: ^1.18.0
   cloud_firestore: ^5.4.0
+  easy_quiz_game: ^1.0.1
 
 dev_dependencies:
   flutter_test:

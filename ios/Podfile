@@ -102,6 +102,8 @@ post_install do |installer|
 
         ## dart: PermissionGroup.criticalAlerts
         'PERMISSION_ASSISTANT=1',
+
+        'AUDIO_SESSION_MICROPHONE=0'
       ]
 
     end
