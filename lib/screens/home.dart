@@ -16,8 +16,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   double radius = 8.0;
+  bool _isLoading = true;
   final DinosaurService _dinosaurService = DinosaurService();
-
+  
   List<Dinosaur> dinosaurs = [
     Dinosaur(
       id: '0',
@@ -46,14 +47,18 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _loadDinosaurStatus() async {
     List<String> lockedDinosaurIds = await _dinosaurService.getLockedDinosaurs();
+    
+    if(!mounted) return;
     setState(() {
       for (var dinosaur in dinosaurs) {
         dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
       }
+      _isLoading = false;
     });
   }
 
   void _unlockDinosaur(Dinosaur dinosaur) {
+    if(!mounted) return;
     setState(() {
       dinosaur.isLocked = false;
     });
@@ -67,118 +72,145 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Ulisse500"),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            child: const Icon(Icons.logout),
-            onTap: () async {
-              await Provider.of<PrivateProvider>(context, listen: false)
-                  .signOut();
-              if (!context.mounted) return;
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-                (route) => false,
-              );
-            },
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Ulisse500"),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              child: const Icon(Icons.logout),
+              onTap: () async {
+                await Provider.of<PrivateProvider>(context, listen: false)
+                    .signOut();
+                if (!context.mounted) return;
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (route) => false,
+                );
+              },
+            ),
           ),
         ),
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(8.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 4 / 5,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
+        body: const Center(
+          child: CircularProgressIndicator(),
         ),
-        itemCount: dinosaurs.length,
-        itemBuilder: (context, index) {
-          final dinosaur = dinosaurs[index];
-          return GestureDetector(
-            onTap: () {
-              if (dinosaur.isLocked) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => QuizPage(
-                      dinosaur: dinosaur,
-                      onUnlock: () => _unlockDinosaur(dinosaur),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Ulisse500"),
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              child: const Icon(Icons.logout),
+              onTap: () async {
+                await Provider.of<PrivateProvider>(context, listen: false)
+                    .signOut();
+                if (!context.mounted) return;
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (route) => false,
+                );
+              },
+            ),
+          ),
+        ),
+        body: GridView.builder(
+          padding: const EdgeInsets.all(8.0),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 4 / 5,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+          ),
+          itemCount: dinosaurs.length,
+          itemBuilder: (context, index) {
+            final dinosaur = dinosaurs[index];
+            return GestureDetector(
+              onTap: () {
+                if (dinosaur.isLocked) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => QuizPage(
+                        dinosaur: dinosaur,
+                        onUnlock: () => _unlockDinosaur(dinosaur),
+                      ),
                     ),
-                  ),
-                );
-              } else {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DinosaurDetailPage(dinosaur: dinosaur),
-                  ),
-                );
-              }
-            },
-            child: Card(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(radius),
-                          child: Image.asset(
-                            dinosaur.image,
-                            fit: BoxFit.contain,
-                            width: double.infinity,
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DinosaurDetailPage(dinosaur: dinosaur),
+                    ),
+                  );
+                }
+              },
+              child: Card(
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(radius),
+                            child: Image.asset(
+                              dinosaur.image,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                            ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(radius),
-                              child: Container(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    dinosaur.name,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.0,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(radius),
+                                child: Container(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      dinosaur.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  if (dinosaur.isLocked)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(radius),
-                      child: Container(
-                        color: Colors.grey.withOpacity(0.8),
-                        child: const Center(
-                          child: Icon(
-                            Icons.lock,
-                            size: 50,
-                            color: Colors.white,
+                          ],
+                        ),
+                      ],
+                    ),
+                    if (dinosaur.isLocked)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(radius),
+                        child: Container(
+                          color: Colors.grey.withOpacity(0.8),
+                          child: const Center(
+                            child: Icon(
+                              Icons.lock,
+                              size: 50,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    }
   }
 }

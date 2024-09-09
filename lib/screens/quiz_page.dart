@@ -26,8 +26,7 @@ class QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    _confettiController =
-        ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
   }
 
   @override
