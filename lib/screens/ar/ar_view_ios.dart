@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
@@ -26,9 +25,9 @@ class ARViewIOSState extends State<ARViewIOS> {
         elevation: 0.0,
       ),
       body: ARKitSceneView(
-        showFeaturePoints: true,
         enableTapRecognizer: true,
-        planeDetection: ARPlaneDetection.horizontalAndVertical,
+        showFeaturePoints: false,
+        planeDetection: ARPlaneDetection.none,
         onARKitViewCreated: (ARKitController controller) {
           this.controller = controller;
 
@@ -57,11 +56,12 @@ class ARViewIOSState extends State<ARViewIOS> {
     );
 
     if (currentNode != null) {
-      await controller.remove(currentNode!.name);
+      currentNode!.position = position;
+    } else {
+      final node = _getNodeFromFlutterAsset(position);
+      await controller.add(node);
+      currentNode = node;
     }
-    final node = _getNodeFromFlutterAsset(position);
-    await controller.add(node);
-    currentNode = node;
   }
 
   ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {

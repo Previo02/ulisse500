@@ -27,8 +27,7 @@ class DinosaurService {
     return _getAllDinosaurIds();
   }
 
-  Future<void> updateLockedDinosaurStatus(
-      List<String> lockedDinosaurIds) async {
+  Future<void> updateLockedDinosaurStatus(List<String> lockedDinosaurIds) async {
     final User? user = _auth.currentUser;
 
     if (user != null) {

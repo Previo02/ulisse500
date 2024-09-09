@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
-import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/provider/element_provider.dart';
-import 'package:ulisse500/screens/detail_page.dart';
+import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/screens/login.dart';
 import 'package:ulisse500/screens/quiz_page.dart';
+import 'package:ulisse500/screens/detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   double radius = 8.0;
   final DinosaurService _dinosaurService = DinosaurService();
+
   List<Dinosaur> dinosaurs = [
     Dinosaur(
       id: '0',
@@ -35,33 +36,21 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loadDinosaurStatus();
   }
 
   Future<void> _loadDinosaurStatus() async {
-    List<String> lockedDinosaurIds =
-        await _dinosaurService.getLockedDinosaurs();
-    bool hasChanges = false;
-
+    List<String> lockedDinosaurIds = await _dinosaurService.getLockedDinosaurs();
     setState(() {
       for (var dinosaur in dinosaurs) {
-        bool isCurrentlyLocked = lockedDinosaurIds.contains(dinosaur.id);
-        if (dinosaur.isLocked != isCurrentlyLocked) {
-          dinosaur.isLocked = isCurrentlyLocked;
-          hasChanges = true;
-        }
+        dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
       }
     });
-
-    if (!mounted) return;
-
-    if (hasChanges) {
-      setState(() {
-        for (var dinosaur in dinosaurs) {
-          dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
-        }
-      });
-    }
   }
 
   void _unlockDinosaur(Dinosaur dinosaur) {

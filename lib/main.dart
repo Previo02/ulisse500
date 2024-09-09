@@ -11,6 +11,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  var authProvider = PrivateProvider();
+  authProvider.signOut();
+
   runApp(const MyApp());
 }
 

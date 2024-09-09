@@ -8,6 +8,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userEmail = Provider.of<PrivateProvider>(context, listen: false).user?.email ?? 'No email';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -28,8 +30,8 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: const Center(
-        child: Text("Profile Page"),
+      body: Center(
+        child: Text(userEmail),
       ),
     );
   }
