@@ -18,21 +18,6 @@ class HomePageState extends State<HomePage> {
   double radius = 8.0;
   bool _isLoading = true;
   final DinosaurService _dinosaurService = DinosaurService();
-  
-  List<Dinosaur> dinosaurs = [
-    Dinosaur(
-      id: '0',
-      name: 'Tyrannosaurus Rex',
-      image: 'assets/images/trex.png',
-      description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
-    ),
-    Dinosaur(
-      id: '1',
-      name: 'Triceratops',
-      image: 'assets/images/triceratops.png',
-      description: 'Il Triceratops è conosciuto per le sue tre corna...',
-    ),
-  ];
 
   @override
   void initState() {
@@ -50,7 +35,7 @@ class HomePageState extends State<HomePage> {
     
     if(!mounted) return;
     setState(() {
-      for (var dinosaur in dinosaurs) {
+      for (var dinosaur in _dinosaurService.dinosaurs) {
         dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
       }
       _isLoading = false;
@@ -63,7 +48,7 @@ class HomePageState extends State<HomePage> {
       dinosaur.isLocked = false;
     });
 
-    List<String> lockedDinosaurIds = dinosaurs
+    List<String> lockedDinosaurIds = _dinosaurService.dinosaurs
         .where((dino) => dino.isLocked)
         .map((dino) => dino.id)
         .toList();
@@ -126,9 +111,9 @@ class HomePageState extends State<HomePage> {
             crossAxisSpacing: 8.0,
             mainAxisSpacing: 8.0,
           ),
-          itemCount: dinosaurs.length,
+          itemCount: _dinosaurService.dinosaurs.length,
           itemBuilder: (context, index) {
-            final dinosaur = dinosaurs[index];
+            final dinosaur = _dinosaurService.dinosaurs[index];
             return GestureDetector(
               onTap: () {
                 if (dinosaur.isLocked) {
@@ -137,6 +122,7 @@ class HomePageState extends State<HomePage> {
                       builder: (context) => QuizPage(
                         dinosaur: dinosaur,
                         onUnlock: () => _unlockDinosaur(dinosaur),
+                        dinosaurService: _dinosaurService,
                       ),
                     ),
                   );

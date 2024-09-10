@@ -24,27 +24,44 @@ class ARViewIOSState extends State<ARViewIOS> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: ARKitSceneView(
-        enableTapRecognizer: true,
-        showFeaturePoints: false,
-        planeDetection: ARPlaneDetection.none,
-        onARKitViewCreated: (ARKitController controller) {
-          this.controller = controller;
+      body: Stack(children: [
+        ARKitSceneView(
+          enableTapRecognizer: true,
+          showFeaturePoints: false,
+          planeDetection: ARPlaneDetection.none,
+          onARKitViewCreated: (ARKitController controller) {
+            this.controller = controller;
 
-          controller.onARTap = (hits) {
-            final point = hits.firstWhereOrNull(
-              (hit) => hit.type == ARKitHitTestResultType.featurePoint,
-            );
-            if (point != null) {
-              try {
-                _onARTapHandler(point);
-              } catch (e) {
-                log('$e');
+            controller.onARTap = (hits) {
+              final point = hits.firstWhereOrNull(
+                (hit) => hit.type == ARKitHitTestResultType.featurePoint,
+              );
+              if (point != null) {
+                try {
+                  _onARTapHandler(point);
+                } catch (e) {
+                  log('$e');
+                }
               }
-            }
-          };
-        },
-      ),
+            };
+          },
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Attendere qualche secondo e toccare su un piano per iniziare',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                backgroundColor: Colors.black.withOpacity(0.5),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ]),
     );
   }
 

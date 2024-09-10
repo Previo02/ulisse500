@@ -3,17 +3,29 @@ import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/screens/login.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final userEmail = Provider.of<PrivateProvider>(context, listen: false).user?.email ?? 'No email';
+    final userEmail =
+        Provider.of<PrivateProvider>(context, listen: false).user?.email ??
+            'No email';
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Ulisse500"),
+        title: const Text("Profilo Utente"),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -30,8 +42,24 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: Text(userEmail),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Email: $userEmail',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Trofei Sbloccati',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            const Expanded(child: Center(child: CircularProgressIndicator())),
+          ],
+        ),
       ),
     );
   }

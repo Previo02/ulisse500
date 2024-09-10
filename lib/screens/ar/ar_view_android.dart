@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
-import 'package:vector_math/vector_math_64.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 import 'ar_view.dart';
 
 class ARViewAndroid extends ARViewBase {
@@ -27,6 +27,21 @@ class ARViewAndroidState extends State<ARViewAndroid> {
             enableTapRecognizer: true,
             type: ArCoreViewType.STANDARDVIEW,
           ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Attendere qualche secondo e toccare su un piano per iniziare',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  backgroundColor: Colors.black.withOpacity(0.5),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -42,7 +57,7 @@ class ARViewAndroidState extends State<ARViewAndroid> {
     onAddLocalObject(hit.pose.translation);
   }
 
-  void onAddLocalObject(Vector3 position) async {
+  void onAddLocalObject(vector.Vector3 position) async {
     if (currentNode != null) {
       arCoreController.removeNode(nodeName: currentNode!.name);
     }
@@ -51,7 +66,7 @@ class ARViewAndroidState extends State<ARViewAndroid> {
       name: widget.dinosaur.name,
       objectUrl: "assets/models/felis.glb",
       position: position,
-      scale: Vector3(0.5, 0.5, 0.5),
+      scale: vector.Vector3(0.5, 0.5, 0.5),
     );
 
     await arCoreController.addArCoreNodeWithAnchor(node);

@@ -1,9 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ulisse500/classes/dinosaur.dart';
 
 class DinosaurService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List<Dinosaur> dinosaurs = [
+    Dinosaur(
+      id: '0',
+      name: 'Tyrannosaurus Rex',
+      image: 'assets/images/trex.png',
+      description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
+    ),
+    Dinosaur(
+      id: '1',
+      name: 'Triceratops',
+      image: 'assets/images/triceratops.png',
+      description: 'Il Triceratops è conosciuto per le sue tre corna...',
+    ),
+  ];
 
   Future<List<String>> getLockedDinosaurs() async {
     final User? user = _auth.currentUser;
@@ -26,8 +41,9 @@ class DinosaurService {
     }
     return _getAllDinosaurIds();
   }
-
-  Future<void> updateLockedDinosaurStatus(List<String> lockedDinosaurIds) async {
+  
+  Future<void> updateLockedDinosaurStatus(
+      List<String> lockedDinosaurIds) async {
     final User? user = _auth.currentUser;
 
     if (user != null) {

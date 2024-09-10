@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
+import 'package:ulisse500/provider/element_provider.dart';
 
 class QuizPage extends StatefulWidget {
   final VoidCallback onUnlock;
   final Dinosaur dinosaur;
+  final DinosaurService dinosaurService;
 
-  const QuizPage({super.key, required this.onUnlock, required this.dinosaur});
+  const QuizPage(
+      {super.key,
+      required this.onUnlock,
+      required this.dinosaur,
+      required this.dinosaurService});
 
   @override
   QuizPageState createState() => QuizPageState();
@@ -15,18 +21,19 @@ class QuizPage extends StatefulWidget {
 class QuizPageState extends State<QuizPage> {
   final String question = "Qual è il dinosauro più famoso?";
   final List<String> answers = [
-    "Tyrannosaurus Rex",
     "Stegosaurus",
+    "Tyrannosaurus Rex",
     "Velociraptor",
     "Brachiosaurus"
   ];
-  final int correctAnswerIndex = 0;
+  final int correctAnswerIndex = 1;
   late ConfettiController _confettiController;
 
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 3));
   }
 
   @override
@@ -53,20 +60,35 @@ class QuizPageState extends State<QuizPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(isCorrect ? 'Risposta Corretta!' : 'Risposta Errata!'),
+          title: Text(
+            isCorrect ? 'Risposta Corretta!' : 'Risposta Errata!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: isCorrect ? Colors.green : Colors.red,
+            ),
+          ),
           content: isCorrect
               ? const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Complimenti, hai risposto correttamente!'),
+                    Text(
+                      'Complimenti, hai risposto correttamente!',
+                      style: TextStyle(fontSize: 18),
+                    ),
                     SizedBox(height: 20),
                     Icon(Icons.emoji_events, color: Colors.amber, size: 80),
                     SizedBox(height: 20),
-                    Text('Hai sbloccato il dinosauro!'),
+                    Text(
+                      'Hai sbloccato il dinosauro!',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ],
                 )
               : const Text(
-                  'Purtroppo hai sbagliato. Riprova la prossima volta!'),
+                  'Purtroppo hai sbagliato. Riprova la prossima volta!',
+                  style: TextStyle(fontSize: 18),
+                ),
           actions: [
             TextButton(
               child: const Text('Torna alla Home'),
@@ -89,6 +111,7 @@ class QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quiz Dinosauri'),
+        backgroundColor: Colors.deepPurple,
       ),
       body: Stack(
         children: [
@@ -99,18 +122,27 @@ class QuizPageState extends State<QuizPage> {
               children: [
                 Text(
                   question,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
                 Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    children: List.generate(answers.length, (index) {
+                  child: GridView.builder(
+                    itemCount: answers.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (context, index) {
                       return _buildAnswerButton(index);
-                    }),
+                    },
                   ),
                 ),
               ],
@@ -126,7 +158,7 @@ class QuizPageState extends State<QuizPage> {
                 Colors.red,
                 Colors.green,
                 Colors.blue,
-                Colors.orange
+                Colors.orange,
               ],
             ),
           ),
@@ -136,14 +168,29 @@ class QuizPageState extends State<QuizPage> {
   }
 
   Widget _buildAnswerButton(int index) {
+    final List<Color> buttonColors = [
+      Colors.redAccent,
+      Colors.greenAccent,
+      Colors.blueAccent,
+      Colors.orangeAccent,
+    ];
+
     return ElevatedButton(
       onPressed: () => _checkAnswer(index),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor: buttonColors[index],
         padding: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
       ),
       child: Text(
         answers[index],
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
         textAlign: TextAlign.center,
       ),
     );
