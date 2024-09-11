@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/routing/navigator.dart';
+import 'package:ulisse500/screens/login.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -26,19 +27,21 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final appBarHeight = screenHeight * 0.15;
-    final textStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: appBarHeight * 0.4,
-    );
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 134, 178, 255),
         toolbarHeight: appBarHeight,
-        title: Center(
-          child: Text(
-            'Register',
-            style: textStyle,
+        title: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Register',
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -100,7 +103,6 @@ class RegisterPageState extends State<RegisterPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 134, 178, 255),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -112,11 +114,14 @@ class RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Already have an account? Log in',
-                  style: TextStyle(color: Color.fromARGB(255, 134, 178, 255)),
                 ),
               ),
             ],

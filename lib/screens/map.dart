@@ -166,8 +166,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Ulisse500"),
+        title: const Text("Mappa Museale"),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(

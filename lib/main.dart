@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:ulisse500/classes/theme.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/routing/navigator.dart';
 import 'package:ulisse500/screens/login.dart';
@@ -29,10 +30,7 @@ class MyApp extends StatelessWidget {
         builder: (context, authProvider, _) {
           return MaterialApp(
             title: 'Ulisse500',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
+            theme: themeData(context),
             home: authProvider.isAuthenticated
                 ? const NavigatorPage()
                 : const LoginPage(),

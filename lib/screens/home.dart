@@ -31,9 +31,10 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadDinosaurStatus() async {
-    List<String> lockedDinosaurIds = await _dinosaurService.getLockedDinosaurs();
-    
-    if(!mounted) return;
+    List<String> lockedDinosaurIds =
+        await _dinosaurService.getLockedDinosaurs();
+
+    if (!mounted) return;
     setState(() {
       for (var dinosaur in _dinosaurService.dinosaurs) {
         dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
@@ -43,7 +44,7 @@ class HomePageState extends State<HomePage> {
   }
 
   void _unlockDinosaur(Dinosaur dinosaur) {
-    if(!mounted) return;
+    if (!mounted) return;
     setState(() {
       dinosaur.isLocked = false;
     });
@@ -60,7 +61,6 @@ class HomePageState extends State<HomePage> {
     if (_isLoading) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text("Ulisse500"),
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -85,7 +85,6 @@ class HomePageState extends State<HomePage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text("Ulisse500"),
           leading: Padding(
             padding: const EdgeInsets.all(8.0),

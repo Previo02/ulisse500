@@ -20,23 +20,31 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final appBarHeight = screenHeight * 0.15;
-    final textStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: appBarHeight * 0.4,
-    );
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 134, 178, 255),
         toolbarHeight: appBarHeight,
-        title: Center(
+        title: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Ulisse500',
-                style: textStyle,
-              ),
+              Column(
+                children: [
+                  Text(
+                    'Ulisse500',
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -102,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 134, 178, 255),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -114,14 +121,14 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPage()),
+                      builder: (context) => const RegisterPage(),
+                    ),
                   );
                 },
                 child: const Text(
                   'Create an account',
-                  style: TextStyle(color: Color.fromARGB(255, 134, 178, 255)),
                 ),
               ),
             ],
