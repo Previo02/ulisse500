@@ -19,14 +19,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class QuizPageState extends State<QuizPage> {
-  final String question = "Qual è il dinosauro più famoso?";
-  final List<String> answers = [
-    "Stegosaurus",
-    "Tyrannosaurus Rex",
-    "Velociraptor",
-    "Brachiosaurus"
-  ];
-  final int correctAnswerIndex = 1;
   late ConfettiController _confettiController;
 
   @override
@@ -43,7 +35,7 @@ class QuizPageState extends State<QuizPage> {
   }
 
   void _checkAnswer(int index) {
-    if (index == correctAnswerIndex) {
+    if (index == widget.dinosaur.quiz.correctAnswerIndex) {
       _showResultPopup(true);
     } else {
       _showResultPopup(false);
@@ -110,8 +102,7 @@ class QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz Dinosauri'),
-        backgroundColor: Colors.deepPurple,
+        title: const Text('Quiz'),
       ),
       body: Stack(
         children: [
@@ -121,7 +112,7 @@ class QuizPageState extends State<QuizPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  question,
+                  widget.dinosaur.quiz.question,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -132,7 +123,7 @@ class QuizPageState extends State<QuizPage> {
                 const SizedBox(height: 40),
                 Expanded(
                   child: GridView.builder(
-                    itemCount: answers.length,
+                    itemCount: widget.dinosaur.quiz.answers.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -185,7 +176,7 @@ class QuizPageState extends State<QuizPage> {
         ),
       ),
       child: Text(
-        answers[index],
+        widget.dinosaur.quiz.answers[index],
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20,

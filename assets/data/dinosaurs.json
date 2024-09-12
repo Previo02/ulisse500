@@ -3,18 +3,48 @@
         "id": "0",
         "name": "Tyrannosaurus Rex",
         "image": "assets/images/trex.png",
-        "description": "Tyrannosaurus rex (Osborn, 1905...)"
+        "description": "Tyrannosaurus rex (Osborn, 1905...)",
+        "quiz": {
+            "question": "Qual è il dinosauro più famoso?",
+            "answers": [
+                "Stegosaurus",
+                "Tyrannosaurus Rex",
+                "Velociraptor",
+                "Brachiosaurus"
+            ],
+            "correctAnswerIndex": 1
+        }
     },
     {
         "id": "1",
         "name": "Triceratops",
         "image": "assets/images/triceratops.png",
-        "description": "Il Triceratops è conosciuto per le sue tre corna..."
+        "description": "Il Triceratops è conosciuto per le sue tre corna...",
+        "quiz": {
+            "question": "Quante corna ha il Triceratops?",
+            "answers": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "correctAnswerIndex": 2
+        }
     },
     {
         "id": "2",
-        "name": "Stegosaurus",
+        "name": "Spinosaurus",
         "image": "assets/images/spinosaurus.png",
-        "description": "Lo Stegosauro è conosciuto per la sua spina sul corpo"
+        "description": "Lo Spinosauro è conosciuto per il suo essere aggressivo e la per la cosiddetta spina sulla schiena",
+        "quiz": {
+            "question": "Cosa mangiava lo spinosauro?",
+            "answers": [
+                "Erbivoro",
+                "Carnivoro",
+                "Onnivoro",
+                "Vegano"
+            ],
+            "correctAnswerIndex": 2
+        }
     }
 ]
