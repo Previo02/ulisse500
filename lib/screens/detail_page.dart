@@ -7,6 +7,11 @@ import 'package:ulisse500/screens/ar/ar_view_ios.dart';
 
 class DinosaurDetailPage extends StatelessWidget {
   final Dinosaur dinosaur;
+  final styleText = const TextStyle(
+    color: Colors.black,
+    fontFamily: "Trajan",
+    fontSize: 18,
+  );
 
   const DinosaurDetailPage({super.key, required this.dinosaur});
 
@@ -27,18 +32,76 @@ class DinosaurDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(dinosaur.image),
+            Image.asset(dinosaur.image), // L'immagine è fissa
             const SizedBox(height: 16.0),
-            Text(
-              dinosaur.description,
-              style: const TextStyle(fontSize: 16.0),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: styleText,
+                          children: [
+                            const TextSpan(
+                              text: 'Descrizione: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: dinosaur.description),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                      RichText(
+                        text: TextSpan(
+                          style: styleText,
+                          children: [
+                            const TextSpan(
+                              text: 'Periodo di vita: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: dinosaur.period),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                      RichText(
+                        text: TextSpan(
+                          style: styleText,
+                          children: [
+                            const TextSpan(
+                              text: 'Peso: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: '${dinosaur.weight} kg'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                      RichText(
+                        text: TextSpan(
+                          style: styleText,
+                          children: [
+                            const TextSpan(
+                              text: 'Curiosità: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: dinosaur.curiosity),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            const Spacer(),
             Center(
               child: ElevatedButton(
                 onPressed: () async {
                   var status = await Permission.camera.status;
-
+              
                   if (status.isGranted) {
                     if (!context.mounted) return;
                     Navigator.of(context).push(
@@ -69,8 +132,7 @@ class DinosaurDetailPage extends StatelessWidget {
                         ),
                       );
                     }
-                  } else if (status.isRestricted ||
-                      status.isPermanentlyDenied) {
+                  } else if (status.isRestricted || status.isPermanentlyDenied) {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

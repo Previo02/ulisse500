@@ -4,6 +4,9 @@
         "name": "Tyrannosaurus Rex",
         "image": "assets/images/trex.png",
         "description": "Tyrannosaurus rex (Osborn, 1905...)",
+        "period": "Cretaceo Superiore",
+        "weight": "8 tonnellate (8000kg)",
+        "curiosity": "Il T-Rex aveva una delle forze di morso più potenti mai misurate.",
         "quiz": {
             "question": "Qual è il dinosauro più famoso?",
             "answers": [
@@ -19,7 +22,10 @@
         "id": "1",
         "name": "Triceratops",
         "image": "assets/images/triceratops.png",
-        "description": "Il Triceratops è conosciuto per le sue tre corna...",
+        "description": "Triceratops, in italiano triceratope, è un genere estinto di dinosauro ceratopside chasmosaurino vissuto nel Cretaceo superiore, circa 68-65,95 milioni di anni fa (ultima fase del Maastrichtiano), in quello che oggi è il Nord America. Triceratops fu uno degli ultimi generi di dinosauri a comparire prima della grande estinzione di massa del Cretaceo-Paleogene, 65,95 milioni di anni fa. Il nome Triceratops deriva dal greco antico τρί/tri- che significa tre, κέρας/kéras che significa corno, e ὤψ/ōps che significa faccia.",
+        "period": "Cretaceo superiore",
+        "weight": "6 Tonnellate (6000kg)",
+        "curiosity": "Il Triceratops aveva un cranio enorme, ma era relativamente lento.",
         "quiz": {
             "question": "Quante corna ha il Triceratops?",
             "answers": [
@@ -36,6 +42,9 @@
         "name": "Spinosaurus",
         "image": "assets/images/spinosaurus.png",
         "description": "Lo Spinosauro è conosciuto per il suo essere aggressivo e la per la cosiddetta spina sulla schiena",
+        "period": "Cretaceo Inferiore",
+        "weight": "11.5 Tonnellate (11.500kg)",
+        "curiosity": "Si cibava prevalentemente di pesci",
         "quiz": {
             "question": "Cosa mangiava lo spinosauro?",
             "answers": [
