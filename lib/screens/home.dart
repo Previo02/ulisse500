@@ -31,8 +31,8 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadDinosaurStatus() async {
-    List<String> lockedDinosaurIds =
-        await _dinosaurService.getLockedDinosaurs();
+    _dinosaurService.loadDinosaursFromJson();
+    List<String> lockedDinosaurIds = await _dinosaurService.getLockedDinosaurs();
 
     if (!mounted) return;
     setState(() {

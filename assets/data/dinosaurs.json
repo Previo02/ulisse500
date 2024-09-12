@@ -1,0 +1,20 @@
+[
+    {
+        "id": "0",
+        "name": "Tyrannosaurus Rex",
+        "image": "assets/images/trex.png",
+        "description": "Tyrannosaurus rex (Osborn, 1905...)"
+    },
+    {
+        "id": "1",
+        "name": "Triceratops",
+        "image": "assets/images/triceratops.png",
+        "description": "Il Triceratops è conosciuto per le sue tre corna..."
+    },
+    {
+        "id": "2",
+        "name": "Stegosaurus",
+        "image": "assets/images/spinosaurus.png",
+        "description": "Lo Stegosauro è conosciuto per la sua spina sul corpo"
+    }
+]

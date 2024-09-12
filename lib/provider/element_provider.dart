@@ -1,24 +1,13 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:ulisse500/classes/dinosaur.dart';
 
 class DinosaurService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  List<Dinosaur> dinosaurs = [
-    Dinosaur(
-      id: '0',
-      name: 'Tyrannosaurus Rex',
-      image: 'assets/images/trex.png',
-      description: 'Il Tyrannosaurus Rex è uno dei dinosauri più famosi...',
-    ),
-    Dinosaur(
-      id: '1',
-      name: 'Triceratops',
-      image: 'assets/images/triceratops.png',
-      description: 'Il Triceratops è conosciuto per le sue tre corna...',
-    ),
-  ];
+  List<Dinosaur> dinosaurs = [];
 
   Future<List<String>> getLockedDinosaurs() async {
     final User? user = _auth.currentUser;
@@ -41,7 +30,7 @@ class DinosaurService {
     }
     return _getAllDinosaurIds();
   }
-  
+
   Future<void> updateLockedDinosaurStatus(
       List<String> lockedDinosaurIds) async {
     final User? user = _auth.currentUser;
@@ -63,6 +52,13 @@ class DinosaurService {
   }
 
   List<String> _getAllDinosaurIds() {
-    return ['0', '1'];
+    return ['0', '1', '2'];
+  }
+
+  Future<void> loadDinosaursFromJson() async {
+    final String response =
+        await rootBundle.loadString('assets/data/dinosaurs.json');
+    final List<dynamic> data = json.decode(response);
+    dinosaurs = data.map((json) => Dinosaur.fromJson(json)).toList();
   }
 }
