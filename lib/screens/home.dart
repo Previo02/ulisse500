@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   double radius = 8.0;
-  bool _isLoading = true;
+  bool isLoading = true;
   final DinosaurService _dinosaurService = DinosaurService();
 
   @override
@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> {
       for (var dinosaur in _dinosaurService.dinosaurs) {
         dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
       }
-      _isLoading = false;
+      isLoading = false;
     });
   }
 
@@ -58,7 +58,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
+    if (isLoading) {
       return Scaffold(
         appBar: AppBar(
           title: const Text("Ulisse500"),

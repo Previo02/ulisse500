@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/screens/login.dart';
+import 'package:ulisse500/provider/element_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,9 +12,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  final DinosaurService dinosaurService = DinosaurService();
+  List<String> unlockedTrophies = [];
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
+    _loadTrophies();
+    dinosaurService.loadDinosaursFromJson();
+  }
+
+  Future<void> _loadTrophies() async {
+    List<String> unlocked = await dinosaurService.getUnlockedDinosaurs();
+    setState(() {
+      unlockedTrophies = unlocked;
+      isLoading = false;
+    });
   }
 
   @override
@@ -22,9 +37,13 @@ class ProfilePageState extends State<ProfilePage> {
         Provider.of<PrivateProvider>(context, listen: false).user?.email ??
             'No email';
 
+    final username = userEmail.split("@")[0];
+    final screenWidth = MediaQuery.of(context).size.width;
+    final trophySize = screenWidth * 0.15;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profilo Utente"),
+        title: Text(username),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -46,17 +65,59 @@ class ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Email: $userEmail',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
             const Text(
               'Trofei Sbloccati',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            const Expanded(child: Center(child: CircularProgressIndicator())),
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: unlockedTrophies.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/trophy.png',
+                                  width: trophySize,
+                                  height: trophySize,
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Dinosauro ID: ${unlockedTrophies[index]}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        dinosaurService.dinosaurs.firstWhere((dino) => dino.id == unlockedTrophies[index]).name,
+                                        style:  const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
       ),

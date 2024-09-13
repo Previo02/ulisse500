@@ -31,6 +31,15 @@ class DinosaurService {
     return _getAllDinosaurIds();
   }
 
+  Future<List<String>> _initializeDinosaurData(
+      DocumentReference userDocRef) async {
+    List<String> allDinosaurIds = _getAllDinosaurIds();
+    await userDocRef.set({
+      'dinosaurs': allDinosaurIds,
+    });
+    return allDinosaurIds;
+  }
+
   Future<void> updateLockedDinosaurStatus(
       List<String> lockedDinosaurIds) async {
     final User? user = _auth.currentUser;
@@ -42,15 +51,6 @@ class DinosaurService {
     }
   }
 
-  Future<List<String>> _initializeDinosaurData(
-      DocumentReference userDocRef) async {
-    List<String> allDinosaurIds = _getAllDinosaurIds();
-    await userDocRef.set({
-      'dinosaurs': allDinosaurIds,
-    });
-    return allDinosaurIds;
-  }
-
   List<String> _getAllDinosaurIds() {
     return ['0', '1', '2'];
   }
@@ -60,5 +60,29 @@ class DinosaurService {
         await rootBundle.loadString('assets/data/dinosaurs.json');
     final List<dynamic> data = json.decode(response);
     dinosaurs = data.map((json) => Dinosaur.fromJson(json)).toList();
+  }
+
+  Future<List<String>> getUnlockedDinosaurs() async {
+    final User? user = _auth.currentUser;
+    List<String> returnList = _getAllDinosaurIds();
+
+    if (user != null) {
+      final DocumentReference userDocRef =
+          _firestore.collection('users').doc(user.uid);
+      final DocumentSnapshot userDoc = await userDocRef.get();
+
+      if (userDoc.exists) {
+        final data = userDoc.data() as Map<String, dynamic>;
+        if (data.containsKey('dinosaurs')) {
+          returnList.removeWhere((item) => List<String>.from(data['dinosaurs']).contains(item));
+          return returnList;
+        } else {
+          return List.empty();
+        }
+      } else {
+        return List.empty();
+      }
+    }
+    return List.empty();
   }
 }
