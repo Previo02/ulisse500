@@ -89,20 +89,25 @@ class ARViewIOSState extends State<ARViewIOS> {
     if (currentNode != null) {
       currentNode!.position = position;
     } else {
-      final node = _getNodeFromFlutterAsset(position);
-      await controller.add(node);
-      currentNode = node;
-    }
-  }
-
-  ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {
-    return ARKitGltfNode(
+      final node = ARKitGltfNode(
       assetType: AssetType.flutterAsset,
       url: "assets/models/felis.glb",
       scale: vector.Vector3.all(0.5),
       position: position,
     );
+      await controller.add(node);
+      currentNode = node;
+    }
   }
+
+  //ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {
+    //return ARKitGltfNode(
+      //assetType: AssetType.flutterAsset,
+      //url: "assets/models/felis.glb",
+      //scale: vector.Vector3.all(0.5),
+      //position: position,
+    //);
+  //}
 
   @override
   void dispose() {

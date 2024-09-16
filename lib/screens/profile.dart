@@ -36,7 +36,7 @@ class ProfilePageState extends State<ProfilePage> {
     final userEmail =
         Provider.of<PrivateProvider>(context, listen: false).user?.email ??
             'No email';
-
+    bool areTrophiesPresent = unlockedTrophies.isNotEmpty;
     final username = userEmail.split("@")[0];
     final screenWidth = MediaQuery.of(context).size.width;
     final trophySize = screenWidth * 0.15;
@@ -72,52 +72,60 @@ class ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16),
             isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: unlockedTrophies.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  'assets/images/trophy.png',
-                                  width: trophySize,
-                                  height: trophySize,
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Dinosauro ID: ${unlockedTrophies[index]}',
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                : areTrophiesPresent
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: unlockedTrophies.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/trophy.png',
+                                      width: trophySize,
+                                      height: trophySize,
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Dinosauro ID: ${unlockedTrophies[index]}',
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            dinosaurService.dinosaurs
+                                                .firstWhere((dino) =>
+                                                    dino.id ==
+                                                    unlockedTrophies[index])
+                                                .name,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        dinosaurService.dinosaurs.firstWhere((dino) => dino.id == unlockedTrophies[index]).name,
-                                        style:  const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : const Center(
+                        child: Text("Non ci sono trofei presenti"),
+                      ),
           ],
         ),
       ),
