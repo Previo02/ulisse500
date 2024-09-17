@@ -17,12 +17,14 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   @override
   void initState() {
+    print("INIT STATE");
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         _isTextVisible = false;
       });
     });
+    print("FINISH STATE");
   }
 
   @override
@@ -64,7 +66,8 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   void _onArCoreViewCreated(ArCoreController controller) {
     arCoreController = controller;
-    arCoreController.onPlaneTap = _handleOnPlaneTap;
+    print("AR CORE VIEW CREATED");
+    //arCoreController.onPlaneTap = _handleOnPlaneTap;
   }
 
   void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
