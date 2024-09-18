@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 ThemeData themeData(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final appBarHeight = screenHeight * 0.10;
+
   return ThemeData(
+    /*
+     * Bottom Bar
+     */
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white54,
@@ -20,21 +26,25 @@ ThemeData themeData(BuildContext context) {
         fontWeight: FontWeight.bold,
         fontFamily: "Trajan",
       ),
-      backgroundColor: Color.fromRGBO(178, 146, 247, 1),
+      backgroundColor: Colors.black54,
     ),
-    appBarTheme: const AppBarTheme(
+    /*
+     * App Bar
+     */
+    appBarTheme: AppBarTheme(
+      toolbarHeight: appBarHeight,
       centerTitle: true,
       elevation: 0.2,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         fontFamily: "Trajan",
         fontWeight: FontWeight.bold,
-        fontSize: 20,
+        fontSize: 25,
       ),
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Colors.white,
-        size: 20,
+        size: 22,
       ),
-      backgroundColor: Color.fromRGBO(178, 146, 247, 1),
+      backgroundColor: Colors.black54,
     ),
   );
 }

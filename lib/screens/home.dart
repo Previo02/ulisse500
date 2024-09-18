@@ -32,7 +32,8 @@ class HomePageState extends State<HomePage> {
 
   Future<void> _loadDinosaurStatus() async {
     _dinosaurService.loadDinosaursFromJson();
-    List<String> lockedDinosaurIds = await _dinosaurService.getLockedDinosaurs();
+    List<String> lockedDinosaurIds =
+        await _dinosaurService.getLockedDinosaurs();
 
     if (!mounted) return;
     setState(() {
@@ -61,9 +62,11 @@ class HomePageState extends State<HomePage> {
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Ulisse500"),
+          title: const Text(
+            "Ulisse500",
+          ),
           leading: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: InkWell(
               child: const Icon(Icons.logout),
               onTap: () async {
@@ -85,9 +88,12 @@ class HomePageState extends State<HomePage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Ulisse500"),
+          title: const Text(
+            "Ulisse500",
+            
+          ),
           leading: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: InkWell(
               child: const Icon(Icons.logout),
               onTap: () async {
@@ -155,14 +161,14 @@ class HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(radius),
                                 child: Container(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
+                                  color:
+                                      const Color.fromARGB(255, 92, 200, 214),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       dinosaur.name,
                                       style: const TextStyle(
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.0,
                                       ),

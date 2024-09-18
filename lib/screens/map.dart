@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:provider/provider.dart';
-import 'package:ulisse500/provider/private_provider.dart';
-import 'package:ulisse500/screens/login.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class MapPage extends StatefulWidget {
@@ -166,27 +163,20 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Mappa Museale"),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            child: const Icon(Icons.logout),
-            onTap: () async {
-              await Provider.of<PrivateProvider>(context, listen: false)
-                  .signOut();
-              if (!context.mounted) return;
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-                (route) => false,
-              );
-            },
-          ),
+        title: Column(
+          children: [
+            Image.asset(
+              "assets/images/titolo.png",
+              alignment: Alignment.center,
+            ),
+          ],
         ),
       ),
       body: FlutterMap(
         options: const MapOptions(
-          initialCenter: LatLng(44.494887, 11.342616),
-          minZoom: 7.0,
+          initialCenter: LatLng(44.4965, 11.3519),
+          initialZoom: 15,
+          minZoom: 10.0,
           maxZoom: 25.0,
         ),
         children: [

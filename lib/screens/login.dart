@@ -24,29 +24,50 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: appBarHeight,
-        title: const Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Image.asset(
+                "assets/images/sigillo.png",
+                fit: BoxFit.contain,
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Ulisse500',
-                    style: TextStyle(
-                      fontSize: 25,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 18,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Ulisse500',
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.01,
+                        ),
+                        const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+          ],
         ),
       ),
       body: Container(
