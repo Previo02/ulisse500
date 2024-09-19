@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
-import 'package:ulisse500/classes/dinosaur.dart';
+import 'package:ulisse500/classes/museum.dart';
 import 'package:ulisse500/provider/element_provider.dart';
 
 class QuizPage extends StatefulWidget {
   final VoidCallback onUnlock;
-  final Dinosaur dinosaur;
-  final DinosaurService dinosaurService;
+  final Museum museum;
+  final MuseumService museumService;
 
   const QuizPage(
       {super.key,
       required this.onUnlock,
-      required this.dinosaur,
-      required this.dinosaurService});
+      required this.museum,
+      required this.museumService});
 
   @override
   QuizPageState createState() => QuizPageState();
@@ -20,7 +20,6 @@ class QuizPage extends StatefulWidget {
 
 class QuizPageState extends State<QuizPage> {
   late ConfettiController _confettiController;
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +34,7 @@ class QuizPageState extends State<QuizPage> {
   }
 
   void _checkAnswer(int index) {
-    if (index == widget.dinosaur.quiz.correctAnswerIndex) {
+    if (index == widget.museum.quiz.correctAnswerIndex) {
       _showResultPopup(true);
     } else {
       _showResultPopup(false);
@@ -72,7 +71,7 @@ class QuizPageState extends State<QuizPage> {
                     Icon(Icons.emoji_events, color: Colors.amber, size: 80),
                     SizedBox(height: 20),
                     Text(
-                      'Hai sbloccato il dinosauro!',
+                      'Hai sbloccato il museo!',
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
@@ -112,7 +111,7 @@ class QuizPageState extends State<QuizPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  widget.dinosaur.quiz.question,
+                  widget.museum.quiz.question,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -123,7 +122,7 @@ class QuizPageState extends State<QuizPage> {
                 const SizedBox(height: 40),
                 Expanded(
                   child: GridView.builder(
-                    itemCount: widget.dinosaur.quiz.answers.length,
+                    itemCount: widget.museum.quiz.answers.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -176,7 +175,7 @@ class QuizPageState extends State<QuizPage> {
         ),
       ),
       child: Text(
-        widget.dinosaur.quiz.answers[index],
+        widget.museum.quiz.answers[index],
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20,

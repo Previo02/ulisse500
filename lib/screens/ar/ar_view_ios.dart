@@ -6,7 +6,7 @@ import 'ar_view.dart';
 import 'package:collection/collection.dart';
 
 class ARViewIOS extends ARViewBase {
-  const ARViewIOS({super.key, required super.dinosaur});
+  const ARViewIOS({super.key, required super.museum});
 
   @override
   ARViewIOSState createState() => ARViewIOSState();
@@ -31,7 +31,7 @@ class ARViewIOSState extends State<ARViewIOS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.dinosaur.name),
+        title: Text(widget.museum.name),
       ),
       body: Stack(
         children: [
@@ -90,24 +90,24 @@ class ARViewIOSState extends State<ARViewIOS> {
       currentNode!.position = position;
     } else {
       final node = ARKitGltfNode(
-      assetType: AssetType.flutterAsset,
-      url: "assets/models/felis.glb",
-      scale: vector.Vector3.all(0.5),
-      position: position,
-    );
+        assetType: AssetType.flutterAsset,
+        url: "assets/models/felis.glb",
+        scale: vector.Vector3.all(0.5),
+        position: position,
+      );
       await controller.add(node);
       currentNode = node;
     }
   }
 
-  //ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {
-    //return ARKitGltfNode(
-      //assetType: AssetType.flutterAsset,
-      //url: "assets/models/felis.glb",
-      //scale: vector.Vector3.all(0.5),
-      //position: position,
-    //);
-  //}
+  /*ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) {
+    return ARKitGltfNode(
+      assetType: AssetType.flutterAsset,
+      url: "assets/models/felis.glb",
+      scale: vector.Vector3.all(0.5),
+      position: position,
+    );
+  }*/
 
   @override
   void dispose() {

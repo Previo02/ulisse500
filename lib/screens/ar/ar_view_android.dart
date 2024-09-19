@@ -4,7 +4,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'ar_view.dart';
 
 class ARViewAndroid extends ARViewBase {
-  const ARViewAndroid({super.key, required super.dinosaur});
+  const ARViewAndroid({super.key, required super.museum});
 
   @override
   ARViewAndroidState createState() => ARViewAndroidState();
@@ -17,21 +17,19 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   @override
   void initState() {
-    print("INIT STATE");
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         _isTextVisible = false;
       });
     });
-    print("FINISH STATE");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.dinosaur.name),
+        title: Text(widget.museum.name),
       ),
       body: Stack(
         children: [
@@ -66,8 +64,7 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   void _onArCoreViewCreated(ArCoreController controller) {
     arCoreController = controller;
-    print("AR CORE VIEW CREATED");
-    //arCoreController.onPlaneTap = _handleOnPlaneTap;
+    arCoreController.onPlaneTap = _handleOnPlaneTap;
   }
 
   void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
@@ -81,7 +78,7 @@ class ARViewAndroidState extends State<ARViewAndroid> {
     }
 
     final node = ArCoreReferenceNode(
-      name: widget.dinosaur.name,
+      name: widget.museum.name,
       objectUrl: "assets/models/felis.glb",
       position: position,
       scale: vector.Vector3(0.5, 0.5, 0.5),

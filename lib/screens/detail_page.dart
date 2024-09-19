@@ -1,25 +1,25 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:ulisse500/classes/dinosaur.dart';
+import 'package:ulisse500/classes/museum.dart';
 import 'package:ulisse500/screens/ar/ar_view_android.dart';
 import 'package:ulisse500/screens/ar/ar_view_ios.dart';
 
-class DinosaurDetailPage extends StatelessWidget {
-  final Dinosaur dinosaur;
+class MuseumDetailPage extends StatelessWidget {
+  final Museum museum;
   final styleText = const TextStyle(
     color: Colors.black,
     fontFamily: "Trajan",
     fontSize: 18,
   );
 
-  const DinosaurDetailPage({super.key, required this.dinosaur});
+  const MuseumDetailPage({super.key, required this.museum});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(dinosaur.name),
+        title: Text(museum.name),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -32,15 +32,17 @@ class DinosaurDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(dinosaur.image), // L'immagine è fissa
-            const SizedBox(height: 16.0),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Image.asset(
+                        museum.image,
+                        alignment: Alignment.topCenter,
+                      ),
+                      const SizedBox(height: 16),
                       RichText(
                         text: TextSpan(
                           style: styleText,
@@ -49,7 +51,7 @@ class DinosaurDetailPage extends StatelessWidget {
                               text: 'Descrizione: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: dinosaur.description),
+                            TextSpan(text: museum.description),
                           ],
                         ),
                       ),
@@ -59,23 +61,10 @@ class DinosaurDetailPage extends StatelessWidget {
                           style: styleText,
                           children: [
                             const TextSpan(
-                              text: 'Periodo di vita: ',
+                              text: 'Indirizzo: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: dinosaur.period),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12.0),
-                      RichText(
-                        text: TextSpan(
-                          style: styleText,
-                          children: [
-                            const TextSpan(
-                              text: 'Peso: ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(text: '${dinosaur.weight} kg'),
+                            TextSpan(text: museum.indirizzo),
                           ],
                         ),
                       ),
@@ -88,7 +77,7 @@ class DinosaurDetailPage extends StatelessWidget {
                               text: 'Curiosità: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: dinosaur.curiosity),
+                            TextSpan(text: museum.curiosity),
                           ],
                         ),
                       ),
@@ -101,14 +90,14 @@ class DinosaurDetailPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   var status = await Permission.camera.status;
-              
+
                   if (status.isGranted) {
                     if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => Platform.isAndroid
-                            ? ARViewAndroid(dinosaur: dinosaur)
-                            : ARViewIOS(dinosaur: dinosaur),
+                            ? ARViewAndroid(museum: museum)
+                            : ARViewIOS(museum: museum),
                       ),
                     );
                   } else if (status.isDenied) {
@@ -118,8 +107,8 @@ class DinosaurDetailPage extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => Platform.isAndroid
-                              ? ARViewAndroid(dinosaur: dinosaur)
-                              : ARViewIOS(dinosaur: dinosaur),
+                              ? ARViewAndroid(museum: museum)
+                              : ARViewIOS(museum: museum),
                         ),
                       );
                     } else {
@@ -132,7 +121,8 @@ class DinosaurDetailPage extends StatelessWidget {
                         ),
                       );
                     }
-                  } else if (status.isRestricted || status.isPermanentlyDenied) {
+                  } else if (status.isRestricted ||
+                      status.isPermanentlyDenied) {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

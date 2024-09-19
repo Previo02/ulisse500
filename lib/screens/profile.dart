@@ -12,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  final DinosaurService dinosaurService = DinosaurService();
+  final MuseumService museumService = MuseumService();
   List<String> unlockedTrophies = [];
   bool isLoading = true;
 
@@ -20,11 +20,11 @@ class ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadTrophies();
-    dinosaurService.loadDinosaursFromJson();
+    museumService.loadMuseumsFromJson();
   }
 
   Future<void> _loadTrophies() async {
-    List<String> unlocked = await dinosaurService.getUnlockedDinosaurs();
+    List<String> unlocked = await museumService.getUnlockedMuseums();
     setState(() {
       unlockedTrophies = unlocked;
       isLoading = false;
@@ -95,7 +95,7 @@ class ProfilePageState extends State<ProfilePage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Dinosauro ID: ${unlockedTrophies[index]}',
+                                            'Museo ID: ${unlockedTrophies[index]}',
                                             style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -103,9 +103,9 @@ class ProfilePageState extends State<ProfilePage> {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            dinosaurService.dinosaurs
-                                                .firstWhere((dino) =>
-                                                    dino.id ==
+                                            museumService.museums
+                                                .firstWhere((museum) =>
+                                                    museum.id ==
                                                     unlockedTrophies[index])
                                                 .name,
                                             style: const TextStyle(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ulisse500/classes/dinosaur.dart';
+import 'package:ulisse500/classes/museum.dart';
 import 'package:ulisse500/provider/element_provider.dart';
 import 'package:ulisse500/provider/private_provider.dart';
 import 'package:ulisse500/screens/login.dart';
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   double radius = 8.0;
   bool isLoading = true;
-  final DinosaurService _dinosaurService = DinosaurService();
+  final MuseumService _museumService = MuseumService();
 
   @override
   void initState() {
@@ -27,34 +27,33 @@ class HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _loadDinosaurStatus();
+    _loadMuseumStatus();
   }
 
-  Future<void> _loadDinosaurStatus() async {
-    _dinosaurService.loadDinosaursFromJson();
-    List<String> lockedDinosaurIds =
-        await _dinosaurService.getLockedDinosaurs();
+  Future<void> _loadMuseumStatus() async {
+    _museumService.loadMuseumsFromJson();
+    List<String> lockedMuseumsIds = await _museumService.getLockedMuseums();
 
     if (!mounted) return;
     setState(() {
-      for (var dinosaur in _dinosaurService.dinosaurs) {
-        dinosaur.isLocked = lockedDinosaurIds.contains(dinosaur.id);
+      for (var museum in _museumService.museums) {
+        museum.isLocked = lockedMuseumsIds.contains(museum.id);
       }
       isLoading = false;
     });
   }
 
-  void _unlockDinosaur(Dinosaur dinosaur) {
+  void _unlockMuseum(Museum museum) {
     if (!mounted) return;
     setState(() {
-      dinosaur.isLocked = false;
+      museum.isLocked = false;
     });
 
-    List<String> lockedDinosaurIds = _dinosaurService.dinosaurs
-        .where((dino) => dino.isLocked)
-        .map((dino) => dino.id)
+    List<String> lockedMuseumIds = _museumService.museums
+        .where((museum) => museum.isLocked)
+        .map((museum) => museum.id)
         .toList();
-    _dinosaurService.updateLockedDinosaurStatus(lockedDinosaurIds);
+    _museumService.updateLockedMuseumStatus(lockedMuseumIds);
   }
 
   @override
@@ -90,7 +89,6 @@ class HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text(
             "Ulisse500",
-            
           ),
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
@@ -116,18 +114,18 @@ class HomePageState extends State<HomePage> {
             crossAxisSpacing: 8.0,
             mainAxisSpacing: 8.0,
           ),
-          itemCount: _dinosaurService.dinosaurs.length,
+          itemCount: _museumService.museums.length,
           itemBuilder: (context, index) {
-            final dinosaur = _dinosaurService.dinosaurs[index];
+            final museum = _museumService.museums[index];
             return GestureDetector(
               onTap: () {
-                if (dinosaur.isLocked) {
+                if (museum.isLocked) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => QuizPage(
-                        dinosaur: dinosaur,
-                        onUnlock: () => _unlockDinosaur(dinosaur),
-                        dinosaurService: _dinosaurService,
+                        museum: museum,
+                        onUnlock: () => _unlockMuseum(museum),
+                        museumService: _museumService,
                       ),
                     ),
                   );
@@ -135,7 +133,7 @@ class HomePageState extends State<HomePage> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
-                          DinosaurDetailPage(dinosaur: dinosaur),
+                          MuseumDetailPage(museum: museum),
                     ),
                   );
                 }
@@ -149,8 +147,8 @@ class HomePageState extends State<HomePage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(radius),
                             child: Image.asset(
-                              dinosaur.image,
-                              fit: BoxFit.contain,
+                              museum.image,
+                              fit: BoxFit.fill,
                               width: double.infinity,
                             ),
                           ),
@@ -166,7 +164,7 @@ class HomePageState extends State<HomePage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      dinosaur.name,
+                                      museum.name,
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -181,7 +179,7 @@ class HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    if (dinosaur.isLocked)
+                    if (museum.isLocked)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(radius),
                         child: Container(

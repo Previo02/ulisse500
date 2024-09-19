@@ -1,40 +1,36 @@
-class Dinosaur {
+class Museum {
   String id;
   String name;
   String image;
   String description;
-  String period;
-  String weight;
+  String indirizzo;
   String curiosity;
   Quiz quiz;
   bool isLocked;
 
-  Dinosaur({
+  Museum({
     required this.id,
     required this.name,
     required this.image,
     required this.description,
-    required this.period,
-    required this.weight,
+    required this.indirizzo,
     required this.curiosity,
     required this.quiz,
     this.isLocked = true,
   });
 
-  factory Dinosaur.fromJson(Map<String, dynamic> json) {
-    return Dinosaur(
+  factory Museum.fromJson(Map<String, dynamic> json) {
+    return Museum(
       id: json['id'],
       name: json['name'],
       image: json['image'],
       description: json['description'],
-      period: json['period'],
-      weight: json['weight'],
+      indirizzo: json['indirizzo'],
       curiosity: json['curiosity'],
       quiz: Quiz.fromJson(json['quiz']),
     );
   }
 }
-
 
 class Quiz {
   String question;

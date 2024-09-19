@@ -1,0 +1,56 @@
+[
+    {
+        "id": "0",
+        "name": "Collezione di Anatomia Comparata",
+        "image": "assets/images/anatomia.jpeg",
+        "description": "La Collezione di Anatomia Comparata complessivamente è costituita da oltre 9.000 pezzi che la rendono, nel suo genere, una delle più note a livello internazionale sia per l’entità sia per la rarità dei materiali. Attualmente sono esposti circa 2.500 preparati suddivisi in tre percorsi.",
+        "indirizzo": "Via Selmi, 3 - 40126 Bologna",
+        "curiosity": "Lo scheletro del capodoglio raggiunge i 18 metri di lunghezza ",
+        "quiz": {
+            "question": "Qual è lo scheletro più grande presente al museo?",
+            "answers": [
+                "Orso",
+                "Capodoglio",
+                "Delfino",
+                "Cavallo"
+            ],
+            "correctAnswerIndex": 1
+        }
+    },
+    {
+        "id": "1",
+        "name": "Collezione di Mineralogia 'Museo Luigi Bombicci'",
+        "image": "assets/images/geologia.jpeg",
+        "description": "Il materiale mineralogico proveniente da tale collezione fu consegnato al Prof. Luigi Bombicci, chiamato a ricoprire la cattedra di Mineralogia e a dirigerne l'omonimo Museo. Continuamente arricchito da donazioni e da un gioco complesso di scambi, il Museo comprende attualmente cinquantamila pezzi.",
+        "indirizzo": "Piazza di Porta S. Donato 1, 40126 Bologna",
+        "curiosity": "La collezione più grande di Mineralogia Sistematica è distribuita secondo classificazione chimico-strutturale delle pietre",
+        "quiz": {
+            "question": "Quante è la pietra più dura?",
+            "answers": [
+                "Calce",
+                "Ambra",
+                "Diamante",
+                "Quarzo"
+            ],
+            "correctAnswerIndex": 2
+        }
+    },
+    {
+        "id": "2",
+        "name": "Collezione di Zoologia",
+        "image": "assets/images/zoologia.jpeg",
+        "description": "La Collezione di Zoologia, per dimensioni ed entità dei reperti, è una delle più importanti in Italia. È costituita da materiali provenienti da raccolte del XIX-XX secolo, trofei di caccia prevalentemente africani e due grandi diorami di ambienti italiani: il Parco Nazionale d’Abruzzo e il Parco Nazionale del Gran Paradiso. La varietà delle specie animali stupirà ogni visitatore che potrà riconoscere esemplari tra i più rari e affascinanti.",
+        "indirizzo": "Via Selmi 3, 40126 Bologna",
+        "curiosity": "Il museo nasce nel 1860 ma la storia della Collezione di Zoologia inizia con la figura di Ulisse Aldrovandi (1522-1605), la cui raccolta privata di reperti naturalistici divenne il nucleo fondativo dell’attuale Collezione.",
+        "quiz": {
+            "question": "Quale animale è il predatore dei mari?",
+            "answers": [
+                "Delfino",
+                "Squalo",
+                "Tartaruga",
+                "Foca"
+            ],
+            "correctAnswerIndex": 1
+        }
+    }
+]
