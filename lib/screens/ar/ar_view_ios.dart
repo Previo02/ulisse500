@@ -31,14 +31,12 @@ class ARViewIOSState extends State<ARViewIOS> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.museum.name),
+        title: Text(widget.museum.category),
       ),
       body: Stack(
         children: [
           ARKitSceneView(
             enableTapRecognizer: true,
-            showFeaturePoints: false,
-            planeDetection: ARPlaneDetection.none,
             onARKitViewCreated: (ARKitController controller) {
               this.controller = controller;
               controller.onARTap = (hits) {
@@ -47,10 +45,13 @@ class ARViewIOSState extends State<ARViewIOS> {
                 );
                 if (point != null) {
                   try {
+                    log('Hit detected at: ${point.worldTransform.getColumn(3)}');
                     _onARTapHandler(point);
                   } catch (e) {
-                    log('$e');
+                    log('Error during AR tap handling: $e');
                   }
+                } else {
+                  log('No valid feature point detected.');
                 }
               };
             },
@@ -89,14 +90,18 @@ class ARViewIOSState extends State<ARViewIOS> {
     if (currentNode != null) {
       currentNode!.position = position;
     } else {
-      final node = ARKitGltfNode(
-        assetType: AssetType.flutterAsset,
-        url: "assets/models/felis.glb",
-        scale: vector.Vector3.all(0.5),
-        position: position,
-      );
-      await controller.add(node);
-      currentNode = node;
+      try {
+        final node = ARKitGltfNode(
+          assetType: AssetType.flutterAsset,
+          url: "assets/models/felis.glb",
+          scale: vector.Vector3.all(0.5),
+          position: position,
+        );
+        await controller.add(node);
+        currentNode = node;
+      } catch (e) {
+        log('Error loading model: $e');
+      }
     }
   }
 

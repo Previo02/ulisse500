@@ -1,3 +1,4 @@
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 
@@ -9,6 +10,14 @@ class HistoryPage extends StatefulWidget {
 }
 
 class HistoryPageState extends State<HistoryPage> {
+  late FlipCardController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = FlipCardController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +32,20 @@ class HistoryPageState extends State<HistoryPage> {
       ),
       body: Center(
         child: FlipCard(
+          controller: _controller,
           fill: Fill.fillBack,
           direction: FlipDirection.HORIZONTAL,
           front: _buildFrontCard(),
           back: _buildBackCard(),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 92, 200, 214),
+        onPressed: () {
+          _controller.toggleCard();
+        },
+        child: const Icon(Icons.flip),
       ),
     );
   }
