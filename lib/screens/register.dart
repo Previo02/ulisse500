@@ -26,44 +26,61 @@ class RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final appBarHeight = screenHeight * 0.15;
+    final appBarHeight = screenHeight * 0.172;
 
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: appBarHeight,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        title: Column(
           children: [
-            Expanded(
-              child: Image.asset(
-                "assets/images/sigillo.png",
-                fit: BoxFit.contain,
-              ),
-            ),
-            const Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Register',
-                          style: TextStyle(
-                            fontSize: 25,
+            Row(
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    "assets/images/sigillo.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          const Text(
+                            'Ulisse500',
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          const Text(
+                            'Register',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const Expanded(
+                  child: SizedBox(),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Image.asset("assets/images/titolo.png"),
                   ),
                 ],
               ),
-            ),
-            const Expanded(
-              child: SizedBox(),
             ),
           ],
         ),
@@ -71,13 +88,13 @@ class RegisterPageState extends State<RegisterPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueGrey.shade100, Colors.white],
+            colors: [Colors.blueGrey.shade50, Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

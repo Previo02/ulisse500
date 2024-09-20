@@ -19,53 +19,61 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final appBarHeight = screenHeight * 0.15;
+    final appBarHeight = screenHeight * 0.172;
 
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: appBarHeight,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        title: Column(
           children: [
-            Expanded(
-              child: Image.asset(
-                "assets/images/sigillo.png",
-                fit: BoxFit.contain,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    "assets/images/sigillo.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          const Text(
+                            'Ulisse500',
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const Expanded(
+                  child: SizedBox(),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Ulisse500',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.01,
-                        ),
-                        const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Expanded(
+                    child: Image.asset("assets/images/titolo.png"),
                   ),
                 ],
               ),
-            ),
-            const Expanded(
-              child: SizedBox(),
             ),
           ],
         ),
@@ -73,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueGrey.shade100, Colors.white],
+            colors: [Colors.blueGrey.shade50, Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
