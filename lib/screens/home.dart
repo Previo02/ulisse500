@@ -139,6 +139,7 @@ class HomePageState extends State<HomePage> {
                 }
               },
               child: Card(
+                borderOnForeground: false,
                 child: Stack(
                   children: [
                     Column(

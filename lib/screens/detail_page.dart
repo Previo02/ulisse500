@@ -19,7 +19,7 @@ class MuseumDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(museum.name),
+        title: Text(museum.category),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

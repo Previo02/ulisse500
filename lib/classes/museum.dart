@@ -5,6 +5,7 @@ class Museum {
   String description;
   String indirizzo;
   String curiosity;
+  String category;
   Quiz quiz;
   bool isLocked;
 
@@ -15,6 +16,7 @@ class Museum {
     required this.description,
     required this.indirizzo,
     required this.curiosity,
+    required this.category,
     required this.quiz,
     this.isLocked = true,
   });
@@ -27,6 +29,7 @@ class Museum {
       description: json['description'],
       indirizzo: json['indirizzo'],
       curiosity: json['curiosity'],
+      category: json['category'],
       quiz: Quiz.fromJson(json['quiz']),
     );
   }
