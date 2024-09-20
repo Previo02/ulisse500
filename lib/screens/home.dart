@@ -58,6 +58,9 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final trophySize = screenWidth * 0.15;
+
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(
@@ -67,7 +70,10 @@ class HomePageState extends State<HomePage> {
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: InkWell(
-              child: const Icon(Icons.logout),
+              child: Icon(
+                Icons.logout,
+                size: trophySize * 0.5,
+              ),
               onTap: () async {
                 await Provider.of<PrivateProvider>(context, listen: false)
                     .signOut();
@@ -93,7 +99,10 @@ class HomePageState extends State<HomePage> {
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
             child: InkWell(
-              child: const Icon(Icons.logout),
+              child: Icon(
+                Icons.logout,
+                size: trophySize * 0.5,
+              ),
               onTap: () async {
                 await Provider.of<PrivateProvider>(context, listen: false)
                     .signOut();
@@ -132,8 +141,7 @@ class HomePageState extends State<HomePage> {
                 } else {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          MuseumDetailPage(museum: museum),
+                      builder: (context) => MuseumDetailPage(museum: museum),
                     ),
                   );
                 }
