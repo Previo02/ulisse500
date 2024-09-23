@@ -29,13 +29,14 @@ class ARViewAndroidState extends State<ARViewAndroid> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.museum.name),
+        title: Text(widget.museum.category),
       ),
       body: Stack(
         children: [
           ArCoreView(
             onArCoreViewCreated: _onArCoreViewCreated,
             enableTapRecognizer: true,
+            enablePlaneRenderer: true,
             type: ArCoreViewType.STANDARDVIEW,
           ),
           Align(
@@ -70,6 +71,20 @@ class ARViewAndroidState extends State<ARViewAndroid> {
   void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
     final hit = hits.first;
     onAddLocalObject(hit.pose.translation);
+    //_addSphere(arCoreController);
+  }
+
+  void _addSphere(ArCoreController controller) {
+    final material = ArCoreMaterial(color: const Color.fromARGB(120, 66, 134, 244));
+    final sphere = ArCoreSphere(
+      materials: [material],
+      radius: 0.1,
+    );
+    final node = ArCoreNode(
+      shape: sphere,
+      position: vector.Vector3(0, 0, -1.5),
+    );
+    controller.addArCoreNode(node);
   }
 
   void onAddLocalObject(vector.Vector3 position) async {
@@ -79,7 +94,8 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
     final node = ArCoreReferenceNode(
       name: widget.museum.name,
-      objectUrl: "assets/models/felis.glb",
+      //object3DFileName: "assets/models/felis.glb",
+      objectUrl: "https://github.com/KhronosGroup/glTF-Sample-Models/blob/main/2.0/Box/glTF-Binary/Box.glb",
       position: position,
       scale: vector.Vector3(0.5, 0.5, 0.5),
     );

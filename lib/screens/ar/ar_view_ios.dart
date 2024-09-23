@@ -95,7 +95,7 @@ class ARViewIOSState extends State<ARViewIOS> {
   ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) =>
       ARKitGltfNode(
         assetType: AssetType.flutterAsset,
-        url: 'assets/models/shark.glb',
+        url: "assets/models/felis2.glb",
         scale: vector.Vector3(0.01, 0.01, 0.01),
         position: position,
       );
