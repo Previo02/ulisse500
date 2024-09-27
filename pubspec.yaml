@@ -78,7 +78,7 @@ flutter:
   assets:
     - assets/images/
     - assets/models/felis.glb
-    - assets/models/felis2.glb
+    #- assets/models/felis2.glb
     #- assets/models/shark.glb
     - assets/data/museums.json
 

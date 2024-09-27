@@ -30,6 +30,12 @@ class ARViewAndroidState extends State<ARViewAndroid> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.category),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Stack(
         children: [
@@ -69,13 +75,19 @@ class ARViewAndroidState extends State<ARViewAndroid> {
   }
 
   void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
-    final hit = hits.first;
-    onAddLocalObject(hit.pose.translation);
-    //_addSphere(arCoreController);
+    try {
+      final hit = hits.first;
+      print("Plane tapped at: ${hit.pose.translation}");
+      onAddLocalObject(hit.pose.translation);
+      _addSphere(arCoreController);
+    } catch (e) {
+      print("Error in _handleOnPlaneTap: $e");
+    }
   }
 
   void _addSphere(ArCoreController controller) {
-    final material = ArCoreMaterial(color: const Color.fromARGB(120, 66, 134, 244));
+    final material =
+        ArCoreMaterial(color: const Color.fromARGB(120, 66, 134, 244));
     final sphere = ArCoreSphere(
       materials: [material],
       radius: 0.1,
@@ -89,13 +101,12 @@ class ARViewAndroidState extends State<ARViewAndroid> {
 
   void onAddLocalObject(vector.Vector3 position) async {
     if (currentNode != null) {
-      arCoreController.removeNode(nodeName: currentNode!.name);
+      await arCoreController.removeNode(nodeName: currentNode!.name);
     }
 
     final node = ArCoreReferenceNode(
       name: widget.museum.name,
-      //object3DFileName: "assets/models/felis.glb",
-      objectUrl: "https://github.com/KhronosGroup/glTF-Sample-Models/blob/main/2.0/Box/glTF-Binary/Box.glb",
+      object3DFileName: "assets/models/felis.glb",
       position: position,
       scale: vector.Vector3(0.5, 0.5, 0.5),
     );

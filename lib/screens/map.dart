@@ -31,8 +31,7 @@ class _MapPageState extends State<MapPage> {
         'name': 'Museo Europeo degli Studenti - MEUS',
         'coord': const LatLng(44.4958, 11.3459),
         'url':
-            //'https://sma.unibo.it/it/il-sistema-museale/museo-europeo-degli-studenti-meus'
-            'https://www.google.com',
+            'https://sma.unibo.it/it/il-sistema-museale/museo-europeo-degli-studenti-meus'
       },
       {
         'name': 'Museo della Specola',
@@ -135,7 +134,6 @@ class _MapPageState extends State<MapPage> {
   Future<void> _openGooglePage(String url) async {
     final Uri uri = Uri.parse(url);
     bool canLaunch = await canLaunchUrl(uri);
-    print('Can launch $url: $canLaunch');
     if (canLaunch) {
       await launchUrl(uri);
     } else {

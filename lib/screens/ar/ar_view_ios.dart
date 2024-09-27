@@ -31,6 +31,12 @@ class ARViewIOSState extends State<ARViewIOS> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.category),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Stack(
         children: [
@@ -68,7 +74,7 @@ class ARViewIOSState extends State<ARViewIOS> {
     controller = arkitController;
     controller.onARTap = (ar) {
       final point = ar.firstWhereOrNull(
-        (o) => o.type == ARKitHitTestResultType.featurePoint,
+        (o) => o.type == ARKitHitTestResultType.existingPlane,
       );
       if (point != null) {
         _onARTapHandler(point);
@@ -95,8 +101,8 @@ class ARViewIOSState extends State<ARViewIOS> {
   ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) =>
       ARKitGltfNode(
         assetType: AssetType.flutterAsset,
-        url: "assets/models/felis2.glb",
-        scale: vector.Vector3(0.01, 0.01, 0.01),
+        url: "assets/models/felis.glb",
+        scale: vector.Vector3(0.2, 0.2, 0.2),
         position: position,
       );
 
