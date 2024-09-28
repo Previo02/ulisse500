@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'ar_view.dart';
@@ -119,5 +119,44 @@ class ARViewAndroidState extends State<ARViewAndroid> {
   void dispose() {
     arCoreController.dispose();
     super.dispose();
+  }
+}*/
+import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
+import 'package:ulisse500/screens/ar/ar_view.dart';
+
+class ARViewAndroid extends ARViewBase {
+  const ARViewAndroid({super.key, required super.museum});
+
+  @override
+  ARViewAndroidState createState() => ARViewAndroidState();
+}
+
+class ARViewAndroidState extends State<ARViewAndroid> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.museum.category),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: const ModelViewer(
+          src: 'assets/models/felis.glb',
+          alt: 'A 3D model of a cat',
+          ar: true,
+          arPlacement: ArPlacement.floor,
+          autoRotate: true,
+          disableZoom: false,
+        ),
+      ),
+    );
   }
 }
