@@ -2,7 +2,7 @@ PODS:
   - arkit_plugin (0.0.1):
     - Flutter
     - GLTFSceneKit
-  - cloud_firestore (5.4.2):
+  - cloud_firestore (5.4.3):
     - Firebase/Firestore (= 11.0.0)
     - firebase_core
     - Flutter
@@ -14,11 +14,11 @@ PODS:
   - Firebase/Firestore (11.0.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 11.0.0)
-  - firebase_auth (5.3.0):
+  - firebase_auth (5.3.1):
     - Firebase/Auth (= 11.0.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.5.0):
+  - firebase_core (3.6.0):
     - Firebase/CoreOnly (= 11.0.0)
     - Flutter
   - FirebaseAppCheckInterop (11.2.0)
@@ -97,6 +97,9 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - arkit_plugin (from `.symlinks/plugins/arkit_plugin/ios`)
@@ -107,6 +110,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -149,6 +153,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -157,10 +163,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   arkit_plugin: c08c4e6f334a922154c2caf2f6fadfaefb51c181
-  cloud_firestore: efded0403c9e674954e2788d93bc2772a5089557
+  cloud_firestore: fbcb4d3601c4f2578f1a49c7ceeb3e199511d95d
   Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
-  firebase_auth: f27287630c4d9e2c3c63e64d9240822ad6b07e5b
-  firebase_core: 2ec6b789859c7c24766344ec71fdf78639402d56
+  firebase_auth: 0985e070b16c52ab2038ce99beeb4c32ce7b4fe2
+  firebase_core: d15e684be03333356064447e0e05f004baffaefc
   FirebaseAppCheckInterop: ea21450529cf0ebd132788dd8916a0269abc684f
   FirebaseAuth: d5cf28be74d7e82257f6a3f717509eff70d3cf4a
   FirebaseAuthInterop: 47c09558af5d1b31f16fb352387c72d4804f4a24
@@ -184,6 +190,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
 
 PODFILE CHECKSUM: bf6ea0d267e1a3af41059c9b62277c653e463ec8
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'ar_view.dart';
-import 'package:collection/collection.dart';
 
 class ARViewIOS extends ARViewBase {
   const ARViewIOS({super.key, required super.museum});
@@ -13,7 +12,7 @@ class ARViewIOS extends ARViewBase {
 
 class ARViewIOSState extends State<ARViewIOS> {
   late ARKitController controller;
-  ARKitNode? currentNode;
+  ARKitGltfNode? currentNode;
   bool _isTextVisible = true;
 
   @override
@@ -24,10 +23,12 @@ class ARViewIOSState extends State<ARViewIOS> {
         _isTextVisible = false;
       });
     });
+    print('ARViewIOS initialized');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Building AR view');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.category),
@@ -71,40 +72,27 @@ class ARViewIOSState extends State<ARViewIOS> {
   }
 
   void onARKitViewCreated(ARKitController arkitController) {
+    print('ARKitView created');
     controller = arkitController;
-    controller.onARTap = (ar) {
-      final point = ar.firstWhereOrNull(
-        (o) => o.type == ARKitHitTestResultType.existingPlane,
-      );
-      if (point != null) {
-        _onARTapHandler(point);
-      }
-    };
+    _loadModel();
   }
 
-  void _onARTapHandler(ARKitTestResult point) {
-    final position = vector.Vector3(
-      point.worldTransform.getColumn(3).x,
-      point.worldTransform.getColumn(3).y,
-      point.worldTransform.getColumn(3).z,
-    );
+  Future<void> _loadModel() async {
+    try {
+      final node = ARKitGltfNode(
+        assetType: AssetType.flutterAsset,
+        url: 'assets/models/prova_felis.glb',
+        scale: vector.Vector3(0.5, 0.5, 0.5),
+        position: vector.Vector3(0, 0, -1.5),
+      );
 
-    if (currentNode != null) {
-      currentNode!.position = position;
-      controller.update(currentNode!.name);
-    } else {
-      currentNode = _getNodeFromFlutterAsset(position);
-      controller.add(currentNode!);
+      await controller.add(node);
+      currentNode = node;
+      print('Model added successfully.');
+    } catch (e) {
+      print('Error loading model: $e');
     }
   }
-
-  ARKitGltfNode _getNodeFromFlutterAsset(vector.Vector3 position) =>
-      ARKitGltfNode(
-        assetType: AssetType.flutterAsset,
-        url: "assets/models/felis.glb",
-        scale: vector.Vector3(0.2, 0.2, 0.2),
-        position: position,
-      );
 
   @override
   void dispose() {
