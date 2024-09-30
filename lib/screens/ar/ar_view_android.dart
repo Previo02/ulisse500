@@ -149,9 +149,10 @@ class ARViewAndroidState extends State<ARViewAndroid> {
         width: double.infinity,
         height: double.infinity,
         child: const ModelViewer(
-          src: 'assets/models/felis.glb',
+          src: 'assets/models/prova_felis.glb',
           alt: 'A 3D model of a cat',
           ar: true,
+          loading: Loading.auto,
           arPlacement: ArPlacement.floor,
           autoRotate: true,
           disableZoom: false,
