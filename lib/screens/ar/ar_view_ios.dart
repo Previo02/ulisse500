@@ -81,7 +81,8 @@ class ARViewIOSState extends State<ARViewIOS> {
     try {
       final node = ARKitGltfNode(
         assetType: AssetType.flutterAsset,
-        url: 'assets/models/prova_felis.glb',
+        url: widget.museum.urlModel,
+        //url: "assets/models/felis.glb",
         scale: vector.Vector3(0.5, 0.5, 0.5),
         position: vector.Vector3(0, 0, -1.5),
       );

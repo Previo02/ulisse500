@@ -6,6 +6,7 @@ class Museum {
   String indirizzo;
   String curiosity;
   String category;
+  String urlModel;
   Quiz quiz;
   bool isLocked;
 
@@ -17,6 +18,7 @@ class Museum {
     required this.indirizzo,
     required this.curiosity,
     required this.category,
+    required this.urlModel,
     required this.quiz,
     this.isLocked = true,
   });
@@ -30,6 +32,7 @@ class Museum {
       indirizzo: json['indirizzo'],
       curiosity: json['curiosity'],
       category: json['category'],
+      urlModel: json['urlModel'],
       quiz: Quiz.fromJson(json['quiz']),
     );
   }

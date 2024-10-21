@@ -148,8 +148,8 @@ class ARViewAndroidState extends State<ARViewAndroid> {
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: const ModelViewer(
-          src: 'assets/models/prova_felis.glb',
+        child: ModelViewer(
+          src: widget.museum.urlModel,
           alt: 'A 3D model of a cat',
           ar: true,
           loading: Loading.auto,
