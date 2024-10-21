@@ -77,16 +77,16 @@ class ARViewIOSState extends State<ARViewIOS> {
     _loadModel();
   }
 
-  void _loadModel() async {
+  void _loadModel() {
     try {
       final node = ARKitGltfNode(
         assetType: AssetType.flutterAsset,
         url: widget.museum.urlModel,
         scale: vector.Vector3(0.5, 0.5, 0.5),
-        position: vector.Vector3(0, 0, -1.5),
+        position: vector.Vector3(0, 0, -1),
       );
 
-      await controller.add(node);
+      controller.add(node);
       currentNode = node;
       print('Model added successfully.');
     } catch (e) {

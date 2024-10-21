@@ -46,7 +46,7 @@
         "description": "La Collezione di Zoologia, per dimensioni ed entità dei reperti, è una delle più importanti in Italia. È costituita da materiali provenienti da raccolte del XIX-XX secolo, trofei di caccia prevalentemente africani e due grandi diorami di ambienti italiani: il Parco Nazionale d’Abruzzo e il Parco Nazionale del Gran Paradiso. La varietà delle specie animali stupirà ogni visitatore che potrà riconoscere esemplari tra i più rari e affascinanti.",
         "indirizzo": "Via Selmi 3, 40126 Bologna",
         "category": "Zoologia",
-        "urlModel": "assets/models/felis.glb",
+        "urlModel": "assets/models/shark_0800.glb",
         "curiosity": "Il museo nasce nel 1860 ma la storia della Collezione di Zoologia inizia con la figura di Ulisse Aldrovandi (1522-1605), la cui raccolta privata di reperti naturalistici divenne il nucleo fondativo dell’attuale Collezione.",
         "quiz": {
             "question": "Quale animale è il predatore dei mari?",

@@ -2,7 +2,7 @@ PODS:
   - arkit_plugin (0.0.1):
     - Flutter
     - GLTFSceneKit
-  - cloud_firestore (5.4.3):
+  - cloud_firestore (5.4.4):
     - Firebase/Firestore (= 11.0.0)
     - firebase_core
     - Flutter
@@ -163,7 +163,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   arkit_plugin: c08c4e6f334a922154c2caf2f6fadfaefb51c181
-  cloud_firestore: fbcb4d3601c4f2578f1a49c7ceeb3e199511d95d
+  cloud_firestore: 3b5f6a54eca60364c20bc19b322fcf60ed670875
   Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
   firebase_auth: 0985e070b16c52ab2038ce99beeb4c32ce7b4fe2
   firebase_core: d15e684be03333356064447e0e05f004baffaefc

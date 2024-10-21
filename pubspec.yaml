@@ -78,7 +78,7 @@ flutter:
   assets:
     - assets/images/
     - assets/models/felis.glb
-    #- assets/models/shark.glb
+    - assets/models/shark_0800.glb
     - assets/data/museums.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
