@@ -77,12 +77,11 @@ class ARViewIOSState extends State<ARViewIOS> {
     _loadModel();
   }
 
-  Future<void> _loadModel() async {
+  void _loadModel() async {
     try {
       final node = ARKitGltfNode(
         assetType: AssetType.flutterAsset,
         url: widget.museum.urlModel,
-        //url: "assets/models/felis.glb",
         scale: vector.Vector3(0.5, 0.5, 0.5),
         position: vector.Vector3(0, 0, -1.5),
       );
