@@ -77,8 +77,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/models/felis.glb
-    - assets/models/shark_0800.glb
+    - assets/models/
     - assets/data/museums.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

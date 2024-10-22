@@ -5,21 +5,35 @@ import 'package:ulisse500/classes/museum.dart';
 import 'package:ulisse500/screens/ar/ar_view_android.dart';
 import 'package:ulisse500/screens/ar/ar_view_ios.dart';
 
-class MuseumDetailPage extends StatelessWidget {
+class MuseumDetailPage extends StatefulWidget {
   final Museum museum;
+  const MuseumDetailPage({super.key, required this.museum});
+
+  @override
+  State<MuseumDetailPage> createState() => _MuseumDetailPageState();
+}
+
+class _MuseumDetailPageState extends State<MuseumDetailPage> {
   final styleText = const TextStyle(
     color: Colors.black,
     fontFamily: "Trajan",
     fontSize: 18,
   );
+  late Future<PermissionStatus> cameraStatus;
 
-  const MuseumDetailPage({super.key, required this.museum});
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      cameraStatus = Permission.camera.status;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(museum.category),
+        title: Text(widget.museum.category),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -39,7 +53,7 @@ class MuseumDetailPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Image.asset(
-                        museum.image,
+                        widget.museum.image,
                         alignment: Alignment.topCenter,
                       ),
                       const SizedBox(height: 16),
@@ -51,7 +65,7 @@ class MuseumDetailPage extends StatelessWidget {
                               text: 'Descrizione: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: museum.description),
+                            TextSpan(text: widget.museum.description),
                           ],
                         ),
                       ),
@@ -64,7 +78,7 @@ class MuseumDetailPage extends StatelessWidget {
                               text: 'Indirizzo: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: museum.indirizzo),
+                            TextSpan(text: widget.museum.indirizzo),
                           ],
                         ),
                       ),
@@ -77,7 +91,7 @@ class MuseumDetailPage extends StatelessWidget {
                               text: 'Curiosità: ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(text: museum.curiosity),
+                            TextSpan(text: widget.museum.curiosity),
                           ],
                         ),
                       ),
@@ -89,28 +103,31 @@ class MuseumDetailPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  var status = await Permission.camera.status;
-
-                  if (status.isGranted) {
+                  //var status = await Permission.camera.status;
+                  if (await cameraStatus.isGranted) {
                     if (!context.mounted) return;
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Platform.isAndroid
-                            ? ARViewAndroid(museum: museum)
-                            : ARViewIOS(museum: museum),
-                      ),
-                    );
-                  } else if (status.isDenied) {
-                    status = await Permission.camera.request();
-                    if (status.isGranted) {
-                      if (!context.mounted) return;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => Platform.isAndroid
-                              ? ARViewAndroid(museum: museum)
-                              : ARViewIOS(museum: museum),
+                              ? ARViewAndroid(museum: widget.museum)
+                              : ARViewIOS(museum: widget.museum),
                         ),
                       );
+                    });
+                  } else if (await cameraStatus.isDenied) {
+                    cameraStatus = Permission.camera.request();
+                    if (await cameraStatus.isGranted) {
+                      if (!context.mounted) return;
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Platform.isAndroid
+                                ? ARViewAndroid(museum: widget.museum)
+                                : ARViewIOS(museum: widget.museum),
+                          ),
+                        );
+                      });
                     } else {
                       if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -121,8 +138,7 @@ class MuseumDetailPage extends StatelessWidget {
                         ),
                       );
                     }
-                  } else if (status.isRestricted ||
-                      status.isPermanentlyDenied) {
+                  } else if (await cameraStatus.isRestricted || await cameraStatus.isPermanentlyDenied) {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
