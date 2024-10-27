@@ -13,17 +13,17 @@ class MuseumService {
     final User? user = _auth.currentUser;
 
     if (user != null) {
-      final DocumentReference userDocRef =
-          _firestore.collection('users').doc(user.uid);
+      final DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
       final DocumentSnapshot userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>;
-        if (data.containsKey('museums')) {
-          return List<String>.from(data['museums'] ?? []);
-        } else {
-          return await _initializeMuseumsData(userDocRef);
-        }
+        //if (data.containsKey('museums')) {
+          //return List<String>.from(data['museums'] ?? []);
+        //} else {
+          //return await _initializeMuseumsData(userDocRef);
+        //}
+        return data.containsKey('museums') ? List<String>.from(data['museums'] ?? []) : await _initializeMuseumsData(userDocRef);
       } else {
         return await _initializeMuseumsData(userDocRef);
       }
@@ -31,8 +31,7 @@ class MuseumService {
     return _getAllMuseumsIds();
   }
 
-  Future<List<String>> _initializeMuseumsData(
-      DocumentReference userDocRef) async {
+  Future<List<String>> _initializeMuseumsData(DocumentReference userDocRef) async {
     List<String> allMuseumsIds = _getAllMuseumsIds();
     await userDocRef.set({
       'museums': allMuseumsIds,
@@ -55,8 +54,7 @@ class MuseumService {
   }
 
   Future<void> loadMuseumsFromJson() async {
-    final String response =
-        await rootBundle.loadString('assets/data/museums.json');
+    final String response = await rootBundle.loadString('assets/data/museums.json');
     final List<dynamic> data = json.decode(response);
     museums = data.map((json) => Museum.fromJson(json)).toList();
   }
@@ -66,15 +64,13 @@ class MuseumService {
     List<String> returnList = _getAllMuseumsIds();
 
     if (user != null) {
-      final DocumentReference userDocRef =
-          _firestore.collection('users').doc(user.uid);
+      final DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
       final DocumentSnapshot userDoc = await userDocRef.get();
 
       if (userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>;
         if (data.containsKey('museums')) {
-          returnList.removeWhere(
-              (item) => List<String>.from(data['museums']).contains(item));
+          returnList.removeWhere((item) => List<String>.from(data['museums']).contains(item));
           return returnList;
         } else {
           return List.empty();

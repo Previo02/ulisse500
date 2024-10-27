@@ -15,7 +15,6 @@ void main() async {
 
   var authProvider = PrivateProvider();
   authProvider.signOut();
-
   runApp(const MyApp());
 }
 
@@ -31,9 +30,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Ulisse500',
             theme: themeData(context),
-            home: authProvider.isAuthenticated
-                ? const NavigatorPage()
-                : const LoginPage(),
+            home: authProvider.isAuthenticated ? const NavigatorPage() : const LoginPage(),
           );
         },
       ),
