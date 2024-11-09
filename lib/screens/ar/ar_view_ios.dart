@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
@@ -23,12 +26,10 @@ class ARViewIOSState extends State<ARViewIOS> {
         _isTextVisible = false;
       });
     });
-    print('ARViewIOS initialized');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Building AR view');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.category),
@@ -72,25 +73,38 @@ class ARViewIOSState extends State<ARViewIOS> {
   }
 
   void onARKitViewCreated(ARKitController arkitController) {
-    print('ARKitView created');
     controller = arkitController;
-    _loadModel();
+    controller.onARTap = (ar) {
+      final point = ar.firstWhereOrNull(
+        (o) => o.type == ARKitHitTestResultType.featurePoint,
+      );
+      if (point != null) {
+        _loadModel(point);
+      }
+    };
   }
 
-  void _loadModel() {
+  void _loadModel(ARKitTestResult point) {
+    final position = vector.Vector3(
+      point.worldTransform.getColumn(3).x,
+      point.worldTransform.getColumn(3).y,
+      point.worldTransform.getColumn(3).z,
+    );
+
     try {
+      if (currentNode != null) {
+        controller.remove(currentNode!.name);
+      }
       final node = ARKitGltfNode(
         assetType: AssetType.flutterAsset,
         url: widget.museum.urlModel,
         scale: vector.Vector3(0.5, 0.5, 0.5),
-        position: vector.Vector3(0, 0, -1),
+        position: position,
       );
-
       controller.add(node);
       currentNode = node;
-      print('Model added successfully.');
     } catch (e) {
-      print('Error loading model: $e');
+      log("Failed to load model: $e");
     }
   }
 
